@@ -1,0 +1,2 @@
+console:
+  path-to-php: $env(PATH_TO_PHP)

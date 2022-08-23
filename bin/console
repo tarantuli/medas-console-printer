@@ -1,0 +1,60 @@
+<?php
+
+use Medas\Console\Formats\Style;
+use Medas\Console\Printer;
+use Medas\Console\Text;
+use Medas\ConsolePrinter\CommandProcessor;
+use Medas\Core\Str;
+use Medas\ServiceManager\Interfaces\Package;
+
+require_once __DIR__ . '/../bootstrap.php';
+
+$arguments = $argv;
+if (str_ends_with($arguments[0], 'console')) {
+    array_shift($arguments);
+}
+
+foreach ($arguments as $argument) {
+    if (str_starts_with($argument, '--addPackage=')) {
+        /** @var Package $class */
+        $class = substr($argument, 13);
+
+        /** @noinspection PhpParamsInspection */
+        sm()->addPackage($class::instance());
+    }
+}
+
+try {
+    service(CommandProcessor::class)->process($arguments);
+}
+catch (Exception|Error $exception) {
+    try {
+        $printer = service(Printer::class);
+
+        foreach (array_reverse($exception->getTrace()) as $trace) {
+            $printer->printLine(new Text((isset($trace['class']) ? $trace['class'] . $trace['type'] : '') . $trace['function'] . '()'));
+
+            foreach ($trace['args'] as $i => $argument) {
+                $printer->printLine(new Text('   ' . $i . ': ' . Str::fromVariable($argument)));
+            }
+
+            if (isset($trace['file'])) {
+                $printer->printLine(new Text('      at ' . $trace['file'] . ':' . $trace['line']));
+            }
+
+            $printer->printLine();
+        }
+
+        $printer
+            ->printLine(new Text('[Exception]', Style::Bold))
+            ->printLine()
+            ->printLine(new Text('  ' . $exception->getMessage()))
+            ->printLine()
+            ->printLine(new Text('at ' . $exception->getFile() . ':' . $exception->getLine()))
+            ->printLine();
+    }
+    catch (Exception|Error) {
+        // Last ditch effort to print something useful
+        echo $exception->getFile(), ':', $exception->getLine(), '  ', $exception->getMessage(), "\n";
+    }
+}
