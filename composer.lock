@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-console.git",
-                "reference": "18d410c34c67d4a5fd7112569106378e6bff4307"
+                "reference": "9443dd14960237054a675edf0e2fdc089fb8ff93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/18d410c34c67d4a5fd7112569106378e6bff4307",
-                "reference": "18d410c34c67d4a5fd7112569106378e6bff4307",
+                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/9443dd14960237054a675edf0e2fdc089fb8ff93",
+                "reference": "9443dd14960237054a675edf0e2fdc089fb8ff93",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 "source": "https://github.com/tarantuli/medas-console/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-console/issues"
             },
-            "time": "2022-08-23T09:00:32+00:00"
+            "time": "2022-08-25T09:13:29+00:00"
         },
         {
             "name": "morphp/medas-core",
@@ -105,12 +105,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-service-manager.git",
-                "reference": "3086b3088335997572afce8a572d1e2748f236f4"
+                "reference": "cda84f2dd9d60d31b81557f67bcc792c101d2117"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-service-manager/zipball/3086b3088335997572afce8a572d1e2748f236f4",
-                "reference": "3086b3088335997572afce8a572d1e2748f236f4",
+                "url": "https://api.github.com/repos/tarantuli/medas-service-manager/zipball/cda84f2dd9d60d31b81557f67bcc792c101d2117",
+                "reference": "cda84f2dd9d60d31b81557f67bcc792c101d2117",
                 "shasum": ""
             },
             "require": {
@@ -144,7 +144,7 @@
                 "source": "https://github.com/tarantuli/medas-service-manager/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-service-manager/issues"
             },
-            "time": "2022-08-23T09:37:25+00:00"
+            "time": "2022-08-25T08:18:14+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\Formats\Format;
-use Medas\Console\Printable;
-use Medas\Console\Table;
-use Medas\Console\Text;
-use Medas\ConsolePrinter\ConfigOptions\NullGlyph;
-use Medas\ConsolePrinter\Printer\BashFormat;
-use Medas\ConsolePrinter\Printer\Table\TablePrinter;
+use Medas\Console\{Formats\Format, Printable, Printer, Table, Text};
+use Medas\ConsolePrinter\{ConfigOptions\NullGlyph, Printer\BashFormat, Printer\Table\TablePrinter};
 use Medas\ServiceManager\Attributes\Service;
 use Medas\ServiceManager\ConfigOptions\ConfigValue;
 
 #[Service]
-class Printer implements \Medas\Console\Printer
+class ConsolePrinter implements Printer
 {
     public function __construct(
         #[ConfigValue(NullGlyph::class)]
@@ -60,5 +55,19 @@ class Printer implements \Medas\Console\Printer
         }
 
         printf("\e[%sm%s\e[0m", implode(';', $codes), $string);
+    }
+
+    public function printText(string $text, mixed $format = null): Printer
+    {
+        $this->print(Text::create($text, $format));
+
+        return $this;
+    }
+
+    public function printEol(): Printer
+    {
+        print("\n");
+
+        return $this;
     }
 }

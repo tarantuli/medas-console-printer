@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Printer\Table;
 
-use Medas\Console\Formats\Color;
-use Medas\Console\Formats\Format;
-use Medas\Console\Formats\Style;
-use Medas\Console\Table;
-use Medas\Console\Text;
+use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
 use Medas\ConsolePrinter\ConfigOptions\NullGlyph;
-use Medas\ConsolePrinter\Printer;
+use Medas\ConsolePrinter\ConsolePrinter;
 use Medas\ServiceManager\Attributes\Service;
 use Medas\ServiceManager\ConfigOptions\ConfigValue;
 
@@ -20,10 +16,9 @@ use Medas\ServiceManager\ConfigOptions\ConfigValue;
 #[Service]
 class TablePrinter
 {
-    private Printer $printer;
+    private ConsolePrinter $printer;
 
-    //   Printer\BashFormat::COLOR256 . '22';
-    private Format $lineColor = Color::LightBlue;
+    private Format $lineColor;
     private Format $headerColor = Style::Bold;
 
     private int $leftIndent = 3;
@@ -37,12 +32,13 @@ class TablePrinter
         private readonly string $nullGlyph,
     )
     {
+        $this->lineColor = new HexColor('#005f00');
     }
 
     public function print(Table $table): void
     {
         $this->columns = $this->getColumns($table);
-        $this->printer = service(Printer::class);
+        $this->printer = service(ConsolePrinter::class);
 
         $this->printHeader();
         $this->printHorizontalBorder();
