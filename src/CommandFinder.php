@@ -37,53 +37,53 @@ class CommandFinder
         return $group;
     }
 
-    private function findNextGroup(ConsoleCommandGroup|null $group, string $groupName): mixed
+    private function findNextGroup(ConsoleCommandGroup|null $parent, string $name): mixed
     {
-        $children = $this->repository->getGroups($group);
+        $children = $this->repository->getGroups($parent);
         $candidateGroups = [];
 
         foreach ($children as $child) {
-            if ($child->name() === $groupName) {
+            if ($child->name() === $name) {
                 return $child;
             }
 
-            if (str_starts_with($child->name(), $groupName)) {
+            if (str_starts_with($child->name(), $name)) {
                 $candidateGroups[] = $child;
             }
         }
 
         if (count($candidateGroups) === 0) {
-            throw new \Exception('can\'t find group ' . $groupName);
+            throw new Exceptions\GroupNotFoundException($parent, $name);
         }
 
         if (count($candidateGroups) > 2) {
-            throw new \Exception('can\'t find unique group with prefix ' . $groupName);
+            throw new Exceptions\UniqueGroupNotFoundException($parent, $name, $candidateGroups);
         }
 
         return $candidateGroups[0];
     }
 
-    private function findProcessor($group, $processorName): ConsoleCommand
+    private function findProcessor($group, $name): ConsoleCommand
     {
         $processors = $this->repository->getProcessors($group);
         $candidateProcessors = [];
 
         foreach ($processors as $processor) {
-            if ($processor->name() === $processorName) {
+            if ($processor->name() === $name) {
                 return $processor;
             }
 
-            if (str_starts_with($processor->name(), $processorName)) {
+            if (str_starts_with($processor->name(), $name)) {
                 $candidateProcessors[] = $processor;
             }
         }
 
         if (count($candidateProcessors) === 0) {
-            throw new \Exception('can\'t find command ' . $processorName);
+            throw new Exceptions\CommandNotFoundException($name, $group);
         }
 
         if (count($candidateProcessors) > 2) {
-            throw new \Exception('can\'t find unique command with prefix ' . $processorName);
+            throw new Exceptions\UniqueCommandNotFoundException($name, $group, $candidateProcessors);
         }
 
         return $candidateProcessors[0];
