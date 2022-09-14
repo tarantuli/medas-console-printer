@@ -132,7 +132,7 @@ class TablePrinter
                 $elements[] = new Text(str_repeat(' ', $this->columnSeparator), $this->lineColor);
             }
 
-            $elements[] = new Text($this->padString($value, $this->columns[$i]->maxWidth));
+            $elements[] = new Text($this->padString((string) $value, $this->columns[$i]->maxWidth));
         }
 
         $this->printer->print(...$elements);

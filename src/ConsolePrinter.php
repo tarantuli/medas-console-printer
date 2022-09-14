@@ -43,6 +43,8 @@ class ConsolePrinter implements Printer
             }
         }
 
+        echo "\n";
+
         return $this;
     }
 
@@ -66,7 +68,7 @@ class ConsolePrinter implements Printer
 
     public function printEol(): Printer
     {
-        print("\n");
+        echo "\n";
 
         return $this;
     }
