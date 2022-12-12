@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\{Formats\Style, Printer, Text};
+use Medas\Console\{Formats\Color, Printer, Text};
 use Medas\Core\Str;
 use Medas\ServiceManager\Attributes\Service;
 
@@ -46,14 +46,23 @@ class ExceptionPrinter
     private function printBacktrace(): void
     {
         foreach (array_reverse($this->exception->getTrace()) as $trace) {
-            $this->printer->print(new Text((isset($trace['class']) ? $trace['class'] . $trace['type'] : '') . $trace['function'] . '()'));
+            $this->printer->print(new Text(
+                (isset($trace['class']) ? $trace['class'] . $trace['type'] : '') . $trace['function'] . '()',
+                Color::Green
+            ));
 
             foreach ($trace['args'] as $i => $argument) {
-                $this->printer->print(new Text('   ' . $i . ': ' . Str::fromVariable($argument)));
+                $this->printer->print(
+                    new Text('   ' . $i, Color::Cyan),
+                    new Text('  ' . Str::fromVariable($argument)),
+                );
             }
 
             if (isset($trace['file'])) {
-                $this->printer->print(new Text('      at ' . $trace['file'] . ':' . $trace['line']));
+                $this->printer->print(new Text(
+                    '     at ' . $trace['file'] . ':' . $trace['line'],
+                    Color::LightGray
+                ));
             }
 
             $this->printer->print();
@@ -63,11 +72,12 @@ class ExceptionPrinter
     private function printExceptionInformation(): void
     {
         $this->printer
-            ->print(new Text('[Exception]', Style::Bold))
-            ->print()
-            ->print(new Text('  ' . $this->exception->getMessage()))
-            ->print()
-            ->print(new Text('at ' . $this->exception->getFile() . ':' . $this->exception->getLine()))
+            ->print(new Text('[Exception]', Color::Green))
+            ->print(new Text($this->exception->getMessage()))
+            ->print(new Text(
+                '  at ' . $this->exception->getFile() . ':' . $this->exception->getLine(),
+                Color::LightGray
+            ))
             ->print();
     }
 
