@@ -7,7 +7,7 @@ namespace Medas\ConsolePrinter\Exceptions;
 use Medas\Console\Commands\ConsoleCommandGroup;
 use Medas\Core\Exceptions\BaseException;
 
-class UniqueGroupNotFoundException extends BaseException
+class NoUniqueGroupFound extends BaseException
 {
     private bool $parentIsRoot;
 

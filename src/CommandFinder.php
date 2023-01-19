@@ -53,11 +53,11 @@ class CommandFinder
         }
 
         if (count($candidateGroups) === 0) {
-            throw new Exceptions\GroupNotFoundException($parent, $name);
+            throw new Exceptions\GroupNotFound($parent, $name);
         }
 
         if (count($candidateGroups) > 2) {
-            throw new Exceptions\UniqueGroupNotFoundException($parent, $name, $candidateGroups);
+            throw new Exceptions\NoUniqueGroupFound($parent, $name, $candidateGroups);
         }
 
         return $candidateGroups[0];
@@ -79,11 +79,11 @@ class CommandFinder
         }
 
         if (count($candidateProcessors) === 0) {
-            throw new Exceptions\CommandNotFoundException($name, $group);
+            throw new Exceptions\CommandNotFound($name, $group);
         }
 
         if (count($candidateProcessors) > 2) {
-            throw new Exceptions\UniqueCommandNotFoundException($name, $group, $candidateProcessors);
+            throw new Exceptions\NoUniqueCommandFound($name, $group, $candidateProcessors);
         }
 
         return $candidateProcessors[0];

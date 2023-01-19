@@ -7,7 +7,7 @@ namespace Medas\ConsolePrinter\Exceptions;
 use Medas\Console\Commands\ConsoleCommandGroup;
 use Medas\Core\Exceptions\BaseException;
 
-class UniqueCommandNotFoundException extends BaseException
+class NoUniqueCommandFound extends BaseException
 {
     public function __construct(string $name, ConsoleCommandGroup $parent, array $matches)
     {
