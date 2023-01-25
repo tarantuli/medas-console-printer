@@ -72,7 +72,7 @@ class ExceptionPrinter
     private function printExceptionInformation(): void
     {
         $this->printer
-            ->print(new Text('[Exception]', Color::LightYellow))
+            ->print(new Text('[' . $this->exception::class . ' exception]', Color::LightYellow))
             ->print(new Text($this->exception->getMessage()))
             ->print(new Text(
                 '  at ' . $this->exception->getFile() . ':' . $this->exception->getLine(),
