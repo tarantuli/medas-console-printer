@@ -8,6 +8,8 @@ use Medas\ServiceManager\ServiceManager;
 
 chdir(__DIR__);
 
+require_once 'vendor/autoload.php';
+
 ServiceManager::get()
     ->addPackages([
         ConsolePrinterPackage::instance(),

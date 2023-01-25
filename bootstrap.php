@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is needed to test bin/console
+ */
+
 use Medas\ConsolePrinter\ConsolePrinterPackage;
 use Medas\ServiceManager\ServiceManager;
 

@@ -24,9 +24,9 @@ class CommandProcessor
         $this->addRequestedPackages($arguments);
 
         try {
-            $processor = $this->commandFinder->find($arguments[0] ?? self::DEFAULT_COMMAND);
+            $consoleCommand = $this->commandFinder->find($arguments[0] ?? self::DEFAULT_COMMAND);
 
-            $processor->process($arguments);
+            $consoleCommand->process($arguments);
         }
         catch (\Exception|\Error $exception) {
             $this->exceptionPrinter->print($exception);

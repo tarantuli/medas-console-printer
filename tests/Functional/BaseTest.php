@@ -6,7 +6,6 @@ namespace Medas\ConsolePrinterTest\Functional;
 
 use Medas\ConfigManager\ConfigManager;
 use Medas\ConsolePrinterTest\MockUps\MockUpPackage;
-use Medas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseTest extends TestCase
@@ -17,13 +16,9 @@ abstract class BaseTest extends TestCase
         $pathToPhp = service(ConfigManager::class)->getValue('console.path-to-php');
         $pathToConsole = realpath(__DIR__ . '/../../bin/console');
 
-        exec($pathToPhp . ' ' . $pathToConsole . ' ' . $command, $output);
+        $string = '"' . $pathToPhp . '" ' . $pathToConsole . ' ' . $command;
+        exec($string, $output);
 
         return $output;
-    }
-
-    protected function loadMockUps(): void
-    {
-        ServiceManager::get()->addPackage(MockUpPackage::instance());
     }
 }
