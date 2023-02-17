@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter\Printer;
 
 use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
-use Medas\ConsolePrinter\Printer\Exceptions\UnknownFormatException;
+use Medas\ConsolePrinter\Printer\Exceptions\UnknownFormat;
 use Medas\ServiceManager\Attributes\Service;
 
 /**
@@ -319,7 +319,7 @@ class BashFormat
     {
         if ($format instanceof HexColor) {
             if (!array_key_exists($format->color(), self::XTERM256_CODES)) {
-                throw new UnknownFormatException($format);
+                throw new UnknownFormat($format);
             }
 
             $prefix = ($format instanceof HexBgColor) ? self::COLOR256_BG : self::COLOR256;
@@ -366,7 +366,7 @@ class BashFormat
             BgColor::LightRed => self::LIGHT_RED_BG,
             BgColor::White => self::WHITE_BG,
 
-            default => throw new Exceptions\UnknownFormatException($format),
+            default => throw new Exceptions\UnknownFormat($format),
         };
     }
 }

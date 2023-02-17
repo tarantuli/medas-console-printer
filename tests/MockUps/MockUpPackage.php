@@ -6,7 +6,7 @@ namespace Medas\ConsolePrinterTest\MockUps;
 
 use Medas\ConfigManager\{ConfigManager, ConfigManagerPackage};
 use Medas\ConfigOptions\ConfigOptionsPackage;
-use Medas\ServiceManager\{AsSingleton, BasePackage};
+use Medas\ServiceManager\{AsSingleton, BasePackage, ServiceConfig};
 
 class MockUpPackage extends BasePackage
 {
@@ -25,13 +25,13 @@ class MockUpPackage extends BasePackage
         return __DIR__;
     }
 
-    public function initialize(): void
+    public function initialize(ServiceConfig $config): void
     {
-        $config = sm()->resolve(ConfigManager::class);
+        $configManager = service(ConfigManager::class);
 
-        $config->addDirectory(__DIR__);
-        $config->readEnv(__DIR__ . '/../..');
+        $configManager->addDirectory(__DIR__);
+        $configManager->readEnv(__DIR__ . '/../..');
 
-        parent::initialize();
+        parent::initialize($config);
     }
 }

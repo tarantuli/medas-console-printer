@@ -7,10 +7,10 @@ namespace Medas\ConsolePrinterTest\Functional\Printer;
 use Medas\Console\ConsolePackage;
 use Medas\Console\Table;
 use Medas\ConsolePrinter\Printer\Table\TablePrinter;
-use Medas\ConsolePrinterTest\Functional\BaseTest;
+use Medas\ConsolePrinterTest\Functional\BaseTestClass;
 use Medas\ServiceManager\ServiceManagerPackage;
 
-class TablePrinterTest extends BaseTest
+class TablePrinterTest extends BaseTestClass
 {
     public function testBasicTest(): void
     {

@@ -8,7 +8,7 @@ use Medas\ConfigManager\ConfigManager;
 use Medas\ConsolePrinterTest\MockUps\MockUpPackage;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseTest extends TestCase
+abstract class BaseTestClass extends TestCase
 {
     public function execute(string $command): array
     {

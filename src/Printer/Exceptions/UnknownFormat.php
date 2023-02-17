@@ -7,7 +7,7 @@ namespace Medas\ConsolePrinter\Printer\Exceptions;
 use Medas\Console\Formats\Format;
 use Medas\Core\Exceptions\BaseException;
 
-class UnknownFormatException extends BaseException
+class UnknownFormat extends BaseException
 {
     public function __construct(Format $format)
     {

@@ -41,7 +41,7 @@ class CommandProcessor
                 $class = substr($argument, 13);
 
                 /** @noinspection PhpParamsInspection */
-                sm()->addPackage($class::instance());
+                sm()->config()->addPackage($class::instance());
             }
         }
     }

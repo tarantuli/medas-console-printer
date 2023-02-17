@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinterTest\Functional;
 
-class BinConsoleTest extends BaseTest
+class BinConsoleTest extends BaseTestClass
 {
     public function testExecuteConsole(): void
     {

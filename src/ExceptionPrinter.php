@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter;
 
 use Medas\Console\{Formats\Color, Printer, Text};
-use Medas\Core\Str;
+use Medas\Core\StringMaker;
 use Medas\ServiceManager\Attributes\Service;
 
 #[Service]
@@ -54,7 +54,7 @@ class ExceptionPrinter
             foreach ($trace['args'] as $i => $argument) {
                 $this->printer->print(
                     new Text('   ' . $i, Color::Cyan),
-                    new Text('  ' . Str::fromVariable($argument)),
+                    new Text('  ' . StringMaker::fromVariable($argument)),
                 );
             }
 
