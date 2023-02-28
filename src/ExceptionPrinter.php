@@ -46,8 +46,15 @@ class ExceptionPrinter
     private function printBacktrace(): void
     {
         foreach (array_reverse($this->exception->getTrace()) as $trace) {
+            if (isset($trace['file'])) {
+                $this->printer->print(new Text(
+                    $trace['file'] . ':' . $trace['line'],
+                    Color::LightGray
+                ));
+            }
+
             $this->printer->print(new Text(
-                (isset($trace['class']) ? $trace['class'] . $trace['type'] : '') . $trace['function'] . '()',
+                ' ' . (isset($trace['class']) ? $trace['class'] . $trace['type'] : '') . $trace['function'] . '()',
                 Color::LightYellow
             ));
 
@@ -58,13 +65,6 @@ class ExceptionPrinter
                 );
             }
 
-            if (isset($trace['file'])) {
-                $this->printer->print(new Text(
-                    '     at ' . $trace['file'] . ':' . $trace['line'],
-                    Color::LightGray
-                ));
-            }
-
             $this->printer->print();
         }
     }
@@ -72,12 +72,12 @@ class ExceptionPrinter
     private function printExceptionInformation(): void
     {
         $this->printer
-            ->print(new Text('[' . $this->exception::class . ' exception]', Color::LightYellow))
-            ->print(new Text($this->exception->getMessage()))
             ->print(new Text(
-                '  at ' . $this->exception->getFile() . ':' . $this->exception->getLine(),
+                $this->exception->getFile() . ':' . $this->exception->getLine(),
                 Color::LightGray
             ))
+            ->print(new Text('  Exception [' . $this->exception::class . ']:', Color::LightYellow))
+            ->print(new Text('    ' . $this->exception->getMessage()))
             ->print();
     }
 
