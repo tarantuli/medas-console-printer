@@ -76,8 +76,8 @@ class ExceptionPrinter
                 $this->exception->getFile() . ':' . $this->exception->getLine(),
                 Color::LightGray
             ))
-            ->print(new Text('  Exception [' . $this->exception::class . ']:', Color::LightYellow))
-            ->print(new Text('    ' . $this->exception->getMessage()))
+            ->print(new Text(' Exception: ' . $this->exception::class, Color::LightYellow))
+            ->print(new Text('   >', Color::Cyan), new Text('    ' . $this->exception->getMessage()))
             ->print();
     }
 
