@@ -6,7 +6,7 @@ namespace Medas\ConsolePrinter;
 
 use Medas\Console\{Formats\Color, Printer, Text};
 use Medas\Core\StringMaker;
-use Medas\ServiceManager\Attributes\Service;
+use Medas\ServiceManager\Service;
 
 #[Service]
 class ExceptionPrinter

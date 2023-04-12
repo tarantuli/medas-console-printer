@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\ConfigOptions;
 
+use Medas\Core\Interfaces\ConfigGroup;
 use Medas\ServiceManager\AsSingleton;
-use Medas\ServiceManager\ConfigOptions\ConfigGroup;
 
 class Group implements ConfigGroup
 {

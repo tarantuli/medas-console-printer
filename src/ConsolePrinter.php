@@ -6,8 +6,8 @@ namespace Medas\ConsolePrinter;
 
 use Medas\Console\{Formats\Format, Printable, Printer, Table, Text};
 use Medas\ConsolePrinter\{ConfigOptions\NullGlyph, Printer\BashFormat, Printer\Table\TablePrinter};
-use Medas\ServiceManager\Attributes\Service;
-use Medas\ServiceManager\ConfigOptions\ConfigValue;
+use Medas\Core\Attributes\ConfigValue;
+use Medas\ServiceManager\Service;
 
 #[Service]
 class ConsolePrinter implements Printer
@@ -19,6 +19,13 @@ class ConsolePrinter implements Printer
         private readonly BashFormat   $bashFormat,
     )
     {
+    }
+
+    public function printText(string $text, mixed $format = null): Printer
+    {
+        $this->print(Text::create($text, $format));
+
+        return $this;
     }
 
     public function print(Printable ...$blocks): self
@@ -57,13 +64,6 @@ class ConsolePrinter implements Printer
         }
 
         printf("\e[%sm%s\e[0m", implode(';', $codes), $string);
-    }
-
-    public function printText(string $text, mixed $format = null): Printer
-    {
-        $this->print(Text::create($text, $format));
-
-        return $this;
     }
 
     public function printEol(): Printer

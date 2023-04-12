@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\ServiceManager\Attributes\Service;
-use Medas\ServiceManager\Interfaces\Package;
+use Medas\ServiceManager\{Package, Service};
 
 #[Service]
 class CommandProcessor

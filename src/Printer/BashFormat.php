@@ -6,7 +6,7 @@ namespace Medas\ConsolePrinter\Printer;
 
 use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
 use Medas\ConsolePrinter\Printer\Exceptions\UnknownFormat;
-use Medas\ServiceManager\Attributes\Service;
+use Medas\ServiceManager\Service;
 
 /**
  * @link https://misc.flogisoft.com/bash/tip_colors_and_formatting

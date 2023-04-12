@@ -7,8 +7,8 @@ namespace Medas\ConsolePrinter\Printer\Table;
 use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
 use Medas\ConsolePrinter\ConfigOptions\NullGlyph;
 use Medas\ConsolePrinter\ConsolePrinter;
-use Medas\ServiceManager\Attributes\Service;
-use Medas\ServiceManager\ConfigOptions\ConfigValue;
+use Medas\Core\Attributes\ConfigValue;
+use Medas\ServiceManager\Service;
 
 /**
  * @see https://en.wikipedia.org/wiki/Box-drawing_character#Box_Drawing for box drawing characters
@@ -83,6 +83,11 @@ class TablePrinter
         $this->printer->print(...$elements);
     }
 
+    private function initializeElements(): array
+    {
+        return [new Text(str_repeat(' ', $this->leftIndent))];
+    }
+
     private function padString(mixed $value, int $width): string
     {
         $padLength = $width - mb_strwidth((string) $value);
@@ -97,11 +102,6 @@ class TablePrinter
         else {
             return $value . str_repeat(' ', $padLength);
         }
-    }
-
-    private function initializeElements(): array
-    {
-        return [new Text(str_repeat(' ', $this->leftIndent))];
     }
 
     private function printHorizontalBorder(): void
