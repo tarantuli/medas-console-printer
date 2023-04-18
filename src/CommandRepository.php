@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter;
 
 use Medas\Console\Commands\{ConsoleCommand, ConsoleCommandGroup};
+use Medas\Core\Attributes\Service;
 use Medas\Core\Interfaces\PrimesCache;
 use Medas\ServiceManager\Cache\CacheManager;
-use Medas\ServiceManager\Service;
 
 #[Service]
 class CommandRepository implements \Medas\Console\CommandRepository, PrimesCache

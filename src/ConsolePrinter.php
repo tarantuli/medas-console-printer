@@ -7,7 +7,7 @@ namespace Medas\ConsolePrinter;
 use Medas\Console\{Formats\Format, Printable, Printer, Table, Text};
 use Medas\ConsolePrinter\{ConfigOptions\NullGlyph, Printer\BashFormat, Printer\Table\TablePrinter};
 use Medas\Core\Attributes\ConfigValue;
-use Medas\ServiceManager\Service;
+use Medas\Core\Attributes\Service;
 
 #[Service]
 class ConsolePrinter implements Printer

@@ -7,8 +7,7 @@ namespace Medas\ConsolePrinter\Printer\Table;
 use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
 use Medas\ConsolePrinter\ConfigOptions\NullGlyph;
 use Medas\ConsolePrinter\ConsolePrinter;
-use Medas\Core\Attributes\ConfigValue;
-use Medas\ServiceManager\Service;
+use Medas\Core\Attributes\{ConfigValue, Service};
 
 /**
  * @see https://en.wikipedia.org/wiki/Box-drawing_character#Box_Drawing for box drawing characters

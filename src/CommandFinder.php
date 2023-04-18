@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter;
 
 use Medas\Console\Commands\{ConsoleCommand, ConsoleCommandGroup};
-use Medas\ServiceManager\Service;
+use Medas\Core\Attributes\Service;
 
 #[Service]
 class CommandFinder
