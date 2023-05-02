@@ -6,6 +6,7 @@ namespace Medas\ConsolePrinter;
 
 use Medas\Console\{Formats\Color, Printer, Text};
 use Medas\Core\Attributes\Service;
+use Medas\Core\Exceptions\Suggestions;
 use Medas\Core\StringMaker;
 
 #[Service]
@@ -41,6 +42,7 @@ class ExceptionPrinter
     {
         $this->printBacktrace();
         $this->printExceptionInformation();
+        $this->printSuggestions();
     }
 
     private function printBacktrace(): void
@@ -79,6 +81,22 @@ class ExceptionPrinter
             ->print(new Text(' Exception: ' . $this->exception::class, Color::LightYellow))
             ->print(new Text('   >', Color::Cyan), new Text('    ' . $this->exception->getMessage()))
             ->print();
+    }
+
+    private function printSuggestions(): void
+    {
+        if (!$this->exception instanceof Suggestions) {
+            return;
+        }
+
+        $this->printer->print(new Text(' Suggestions:', Color::LightYellow));
+
+        foreach ($this->exception->suggestions() as $suggestion) {
+            $this->printer
+                ->print(new Text('   >', Color::Cyan), new Text('    ' . $suggestion));
+        }
+
+        $this->printer->print();
     }
 
     private function printAnyExceptionInformation(): void
