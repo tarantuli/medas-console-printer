@@ -28,7 +28,7 @@ class CommandProcessor
 
             $consoleCommand->process($arguments);
         }
-        catch (\Exception|\Error $exception) {
+        catch (\Throwable $exception) {
             $this->exceptionPrinter->print($exception);
         }
     }

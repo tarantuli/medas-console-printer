@@ -13,9 +13,9 @@ use Medas\Core\StringMaker;
 class ExceptionPrinter
 {
     private Printer|null $printer = null;
-    private \Error|\Exception $exception;
+    private \Throwable $exception;
 
-    public function print(\Exception|\Error $exception): void
+    public function print(\Throwable $exception): void
     {
         $this->exception = $exception;
 
@@ -23,7 +23,7 @@ class ExceptionPrinter
             $this->loadPrinter();
             $this->printVerboseExceptionInformation();
         }
-        catch (\Exception|\Error) {
+        catch (\Throwable) {
             // Last ditch effort to print something useful
             $this->printAnyExceptionInformation();
         }
