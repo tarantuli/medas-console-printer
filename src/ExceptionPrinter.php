@@ -49,38 +49,38 @@ class ExceptionPrinter
     {
         foreach (array_reverse($this->exception->getTrace()) as $trace) {
             if (isset($trace['file'])) {
-                $this->printer->print(new Text(
+                $this->printer->printLine(new Text(
                     $trace['file'] . ':' . $trace['line'],
                     Color::LightGray
                 ));
             }
 
-            $this->printer->print(new Text(
+            $this->printer->printLine(new Text(
                 ' ' . (isset($trace['class']) ? $trace['class'] . $trace['type'] : '') . $trace['function'] . '()',
                 Color::LightYellow
             ));
 
             foreach ($trace['args'] as $i => $argument) {
-                $this->printer->print(
+                $this->printer->printLine(
                     new Text('   ' . $i, Color::Cyan),
                     new Text('  ' . StringMaker::fromVariable($argument, true, true)),
                 );
             }
 
-            $this->printer->print();
+            $this->printer->printLine();
         }
     }
 
     private function printExceptionInformation(): void
     {
         $this->printer
-            ->print(new Text(
+            ->printLine(new Text(
                 $this->exception->getFile() . ':' . $this->exception->getLine(),
                 Color::LightGray
             ))
-            ->print(new Text(' Exception: ' . $this->exception::class, Color::LightYellow))
-            ->print(new Text('   >', Color::Cyan), new Text('    ' . $this->exception->getMessage()))
-            ->print();
+            ->printLine(new Text(' Exception: ' . $this->exception::class, Color::LightYellow))
+            ->printLine(new Text('   >', Color::Cyan), new Text('  ' . $this->exception->getMessage()))
+            ->printLine();
     }
 
     private function printSuggestions(): void
@@ -89,18 +89,18 @@ class ExceptionPrinter
             return;
         }
 
-        $this->printer->print(new Text(' Suggestions:', Color::LightYellow));
+        $this->printer->printLine(new Text(' Suggestions:', Color::LightYellow));
 
         foreach ($this->exception->suggestions() as $suggestion) {
             $this->printer
-                ->print(new Text('   >', Color::Cyan), new Text('    ' . $suggestion));
+                ->printLine(new Text('   >', Color::Cyan), new Text('  ' . $suggestion));
         }
 
-        $this->printer->print();
+        $this->printer->printLine();
     }
 
     private function printAnyExceptionInformation(): void
     {
-        echo $this->exception->getFile(), ':', $this->exception->getLine(), '  ', $this->exception->getMessage(), "\n";
+        echo $this->exception->getFile(), ':', $this->exception->getLine(), ' ', $this->exception->getMessage(), "\n";
     }
 }
