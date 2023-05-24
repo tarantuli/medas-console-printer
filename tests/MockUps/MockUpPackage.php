@@ -6,7 +6,8 @@ namespace Medas\ConsolePrinterTest\MockUps;
 
 use Medas\ConfigManager\{ConfigManager, ConfigManagerPackage};
 use Medas\ConfigOptions\ConfigOptionsPackage;
-use Medas\ServiceManager\{AsSingleton, BasePackage, ServiceConfig};
+use Medas\Core\AsSingleton;
+use Medas\ServiceManager\{BasePackage, ServiceConfig};
 
 class MockUpPackage extends BasePackage
 {
