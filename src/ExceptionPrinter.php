@@ -91,9 +91,20 @@ class ExceptionPrinter
 
         $this->printer->printLine(new Text(' Suggestions:', Color::LightYellow));
 
-        foreach ($this->exception->suggestions() as $suggestion) {
+        foreach ($this->exception->suggestions() as $key => $value) {
+            if (is_string($key)) {
+                $suggestion = $key;
+                $indentation = $value;
+            }
+            else {
+                $suggestion = $value;
+                $indentation = 0;
+            }
+
+            $prefix = '   ' . str_repeat('   ', $indentation) . '>  ';
+
             $this->printer
-                ->printLine(new Text('   >', Color::Cyan), new Text('  ' . $suggestion));
+                ->printLine(new Text($prefix, Color::Cyan), new Text($suggestion));
         }
 
         $this->printer->printLine();
