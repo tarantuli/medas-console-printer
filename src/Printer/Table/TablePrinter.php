@@ -79,7 +79,7 @@ class TablePrinter
             $elements[] = new Text($this->padString($column->header, $column->maxWidth), $this->headerColor);
         }
 
-        $this->printer->print(...$elements);
+        $this->printer->printLine(...$elements);
     }
 
     private function initializeElements(): array
@@ -115,7 +115,7 @@ class TablePrinter
             $elements[] = new Text(str_repeat('─', $column->maxWidth), $this->lineColor);
         }
 
-        $this->printer->print(...$elements);
+        $this->printer->printLine(...$elements);
     }
 
     private function printRecord(mixed $record): void
@@ -134,6 +134,6 @@ class TablePrinter
             $elements[] = new Text($this->padString((string) $value, $this->columns[$i]->maxWidth));
         }
 
-        $this->printer->print(...$elements);
+        $this->printer->printLine(...$elements);
     }
 }
