@@ -24,7 +24,6 @@
                 "morphp/medas-service-manager": "dev-dev",
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -56,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-core.git",
-                "reference": "73c7e114a2f78629af9754f1666b3ef552d7818b"
+                "reference": "d6210b9e208ede482be0de1adace4c263a9b4168"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-core/zipball/73c7e114a2f78629af9754f1666b3ef552d7818b",
-                "reference": "73c7e114a2f78629af9754f1666b3ef552d7818b",
+                "url": "https://api.github.com/repos/tarantuli/medas-core/zipball/d6210b9e208ede482be0de1adace4c263a9b4168",
+                "reference": "d6210b9e208ede482be0de1adace4c263a9b4168",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +70,6 @@
                 "morphp/medas-service-manager": "dev-dev",
                 "phpunit/phpunit": "^9"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -95,7 +93,7 @@
                 "source": "https://github.com/tarantuli/medas-core/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-core/issues"
             },
-            "time": "2023-05-23T09:30:52+00:00"
+            "time": "2023-06-06T09:46:58+00:00"
         },
         {
             "name": "morphp/medas-object-instantiator",
@@ -115,7 +113,6 @@
                 "morphp/medas-service-manager": "dev-dev",
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -142,12 +139,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-service-manager.git",
-                "reference": "c49bb4fdf84daa25ce0382355f84c21d7864fe3a"
+                "reference": "fc022eb105d478110098da64955c7e32fe46d74f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-service-manager/zipball/c49bb4fdf84daa25ce0382355f84c21d7864fe3a",
-                "reference": "c49bb4fdf84daa25ce0382355f84c21d7864fe3a",
+                "url": "https://api.github.com/repos/tarantuli/medas-service-manager/zipball/fc022eb105d478110098da64955c7e32fe46d74f",
+                "reference": "fc022eb105d478110098da64955c7e32fe46d74f",
                 "shasum": ""
             },
             "require": {
@@ -158,7 +155,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^9"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -182,7 +178,7 @@
                 "source": "https://github.com/tarantuli/medas-service-manager/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-service-manager/issues"
             },
-            "time": "2023-05-22T10:41:32+00:00"
+            "time": "2023-06-02T09:31:29+00:00"
         }
     ],
     "packages-dev": [
@@ -340,7 +336,6 @@
                 "morphp/medas-service-manager": "dev-dev",
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -382,7 +377,6 @@
                 "morphp/medas-config-manager": "dev-dev",
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2091,16 +2085,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e"
+                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
-                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/7c3aff79d10325257a001fcf92d991f24fc967cf",
+                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf",
                 "shasum": ""
             },
             "require": {
@@ -2109,7 +2103,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.3-dev"
+                    "dev-main": "3.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -2138,7 +2132,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.2.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -2154,7 +2148,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-01T10:25:55+00:00"
+            "time": "2023-05-23T14:45:45+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

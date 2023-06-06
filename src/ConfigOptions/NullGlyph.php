@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\ConfigOptions;
 
+use Medas\Core\Attributes\Service;
 use Medas\Core\Interfaces\{ConfigGroup, ConfigOption};
-use Medas\Core\AsSingleton;
 
+#[Service]
 class NullGlyph implements ConfigOption
 {
-    use AsSingleton;
+    public function __construct(
+        private readonly Group $group,
+    )
+    {
+    }
 
     public function group(): ConfigGroup
     {
-        return Group::instance();
+        return $this->group;
     }
 
     public function name(): string
