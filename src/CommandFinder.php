@@ -56,7 +56,7 @@ class CommandFinder
             throw new Exceptions\GroupNotFound($parent, $name);
         }
 
-        if (count($candidateGroups) > 2) {
+        if (count($candidateGroups) >= 2) {
             throw new Exceptions\NoUniqueGroupFound($parent, $name, $candidateGroups);
         }
 
@@ -82,7 +82,7 @@ class CommandFinder
             throw new Exceptions\CommandNotFound($name, $group);
         }
 
-        if (count($candidateProcessors) > 2) {
+        if (count($candidateProcessors) >= 2) {
             throw new Exceptions\NoUniqueCommandFound($name, $group, $candidateProcessors);
         }
 
