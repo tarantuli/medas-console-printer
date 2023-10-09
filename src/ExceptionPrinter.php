@@ -63,7 +63,7 @@ class ExceptionPrinter
             foreach ($trace['args'] as $i => $argument) {
                 $this->printer->printLine(
                     new Text('   ' . $i, Color::Cyan),
-                    new Text('  ' . StringMaker::fromVariable($argument, true, true)),
+                    new Text('  ' . StringMaker::instance()->fromVariable($argument, true, true)),
                 );
             }
 
