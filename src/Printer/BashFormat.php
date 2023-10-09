@@ -348,6 +348,7 @@ class BashFormat
             Color::LightCyan => self::LIGHT_CYAN,
             Color::LightRed => self::LIGHT_RED,
             Color::White => self::WHITE,
+            Color::Gray => self::GRAY,
 
             BgColor::Default => self::DEFAULT_BG,
             BgColor::Black => self::BLACK_BG,
@@ -365,6 +366,7 @@ class BashFormat
             BgColor::LightCyan => self::LIGHT_CYAN_BG,
             BgColor::LightRed => self::LIGHT_RED_BG,
             BgColor::White => self::WHITE_BG,
+            BgColor::Gray => self::GRAY_BG,
 
             default => throw new Exceptions\UnknownFormat($format),
         };
