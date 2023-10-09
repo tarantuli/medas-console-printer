@@ -48,6 +48,15 @@ class ConsolePrinter implements Printer
         return $this;
     }
 
+    public function printTextLine(string $text, mixed $format = null): Printer
+    {
+        $this->print(Text::create($text, $format));
+
+        echo "\n";
+
+        return $this;
+    }
+
     public function printEol(): Printer
     {
         echo "\n";
