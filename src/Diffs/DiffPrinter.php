@@ -25,7 +25,7 @@ readonly class DiffPrinter
                 '+' => Color::Green,
                 '-' => Color::Red,
                 '@' => Color::Blue,
-                ' ' => Color::Gray,
+                '', ' ' => Color::Gray,
             };
 
             $consolePrinter->printLine(Text::create($line, $color));
