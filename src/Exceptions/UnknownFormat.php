@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Medas\ConsolePrinter\Formats\Exceptions;
+namespace Medas\ConsolePrinter\Exceptions;
 
 use Medas\Console\Formats\Format;
 use Medas\Core\Exceptions\BaseException;

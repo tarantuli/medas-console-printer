@@ -8,10 +8,10 @@ use Medas\Core\Attributes\Service;
 use Medas\Core\Interfaces\{ConfigGroup, ConfigOption};
 
 #[Service]
-class NullGlyph implements ConfigOption
+readonly class NullGlyph implements ConfigOption
 {
     public function __construct(
-        private readonly Group $group,
+        private Group $group,
     )
     {
     }

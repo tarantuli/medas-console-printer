@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter\Formats;
 
 use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
-use Medas\ConsolePrinter\Formats\Exceptions\UnknownFormat;
+use Medas\ConsolePrinter\Exceptions\UnknownFormat;
 use Medas\Core\Attributes\Service;
 
 /**
@@ -368,7 +368,7 @@ class BashFormat
             BgColor::White => self::WHITE_BG,
             BgColor::Gray => self::GRAY_BG,
 
-            default => throw new Exceptions\UnknownFormat($format),
+            default => throw new UnknownFormat($format),
         };
     }
 }

@@ -8,10 +8,10 @@ use Medas\Console\Commands\{ConsoleCommand, ConsoleCommandGroup};
 use Medas\Core\Attributes\Service;
 
 #[Service]
-class CommandFinder
+readonly class CommandFinder
 {
     public function __construct(
-        private readonly CommandRepository $repository,
+        private CommandRepository $repository,
     )
     {
     }
