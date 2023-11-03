@@ -4,21 +4,17 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\{Formats\Format, Printable, Printer, Table, Text};
-use Medas\ConsolePrinter\{ConfigOptions\NullGlyph,
-    Exceptions\NoPrintingImplementationForBlockType,
-    Printer\BashFormat,
-    Printer\Table\TablePrinter};
+use Medas\Console\{Printable, Printer, Table, Text};
 use Medas\Core\Attributes\{ConfigValue, Service};
 
 #[Service]
-class ConsolePrinter implements Printer
+readonly class ConsolePrinter implements Printer
 {
     public function __construct(
-        #[ConfigValue(NullGlyph::class)]
-        private readonly string       $nullGlyph,
-        private readonly TablePrinter $tablePrinter,
-        private readonly BashFormat   $bashFormat,
+        #[ConfigValue(ConfigOptions\NullGlyph::class)]
+        private string              $nullGlyph,
+        private Tables\TablePrinter $tablePrinter,
+        private Texts\TextPrinter   $textPrinter,
     )
     {
     }
@@ -35,7 +31,6 @@ class ConsolePrinter implements Printer
     public function printLine(Printable ...$blocks): self
     {
         $this->print(...$blocks);
-
         echo "\n";
 
         return $this;
@@ -51,7 +46,6 @@ class ConsolePrinter implements Printer
     public function printTextLine(string $text, mixed $format = null): Printer
     {
         $this->print(Text::create($text, $format));
-
         echo "\n";
 
         return $this;
@@ -72,34 +66,15 @@ class ConsolePrinter implements Printer
         }
 
         if ($block instanceof Text) {
-            if ($block->format === null) {
-                echo $block->text;
-            }
-            else {
-                $this->format($block->text, $block->format);
-            }
-
+            $this->textPrinter->print($block);
             return;
         }
 
         if ($block instanceof Table) {
             $this->tablePrinter->print($block);
-
             return;
         }
 
-        throw new NoPrintingImplementationForBlockType($block);
-    }
-
-    /** @param Format|Format[] $formats */
-    private function format(string $string, mixed $formats): void
-    {
-        $codes = [];
-
-        foreach (is_array($formats) ? $formats : [$formats] as $format) {
-            $codes[] = $this->bashFormat->getCode($format);
-        }
-
-        printf("\e[%sm%s\e[0m", implode(';', $codes), $string);
+        throw new Exceptions\NoPrintingImplementationForBlockType($block);
     }
 }

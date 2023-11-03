@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Medas\ConsolePrinter\Printer;
+namespace Medas\ConsolePrinter\Formats;
 
 use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
-use Medas\ConsolePrinter\Printer\Exceptions\UnknownFormat;
+use Medas\ConsolePrinter\Formats\Exceptions\UnknownFormat;
 use Medas\Core\Attributes\Service;
 
 /**

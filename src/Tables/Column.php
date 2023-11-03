@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Medas\ConsolePrinter\Printer\Table;
+namespace Medas\ConsolePrinter\Tables;
 
 class Column
 {

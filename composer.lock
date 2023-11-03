@@ -58,12 +58,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-core.git",
-                "reference": "74c3262fabaa334b0e7a85571b6ffc6f3c2956a4"
+                "reference": "17edd1611ca2e9c4717b5de866c9e8f92f8848b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-core/zipball/74c3262fabaa334b0e7a85571b6ffc6f3c2956a4",
-                "reference": "74c3262fabaa334b0e7a85571b6ffc6f3c2956a4",
+                "url": "https://api.github.com/repos/tarantuli/medas-core/zipball/17edd1611ca2e9c4717b5de866c9e8f92f8848b6",
+                "reference": "17edd1611ca2e9c4717b5de866c9e8f92f8848b6",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "source": "https://github.com/tarantuli/medas-core/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-core/issues"
             },
-            "time": "2023-10-09T08:01:31+00:00"
+            "time": "2023-10-18T11:41:05+00:00"
         },
         {
             "name": "morphp/medas-object-instantiator",
@@ -146,12 +146,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:tarantuli/medas-service-manager.git",
-                "reference": "693ce834d572359f8ae6a8f03d6c0aada9d9cf0e"
+                "reference": "8c8fedda10248b2a0e1638af6b67c10008c093f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-service-manager/zipball/693ce834d572359f8ae6a8f03d6c0aada9d9cf0e",
-                "reference": "693ce834d572359f8ae6a8f03d6c0aada9d9cf0e",
+                "url": "https://api.github.com/repos/tarantuli/medas-service-manager/zipball/8c8fedda10248b2a0e1638af6b67c10008c093f1",
+                "reference": "8c8fedda10248b2a0e1638af6b67c10008c093f1",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
                 "source": "https://github.com/tarantuli/medas-service-manager/tree/dev",
                 "issues": "https://github.com/tarantuli/medas-service-manager/issues"
             },
-            "time": "2023-08-23T13:29:08+00:00"
+            "time": "2023-10-13T14:11:38+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -2462,16 +2462,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.4.23",
+            "version": "v5.4.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "4cd2e3ea301aadd76a4172756296fe552fb45b0b"
+                "reference": "c6980e82a6656f6ebfabfd82f7585794cb122554"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/4cd2e3ea301aadd76a4172756296fe552fb45b0b",
-                "reference": "4cd2e3ea301aadd76a4172756296fe552fb45b0b",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/c6980e82a6656f6ebfabfd82f7585794cb122554",
+                "reference": "c6980e82a6656f6ebfabfd82f7585794cb122554",
                 "shasum": ""
             },
             "require": {
@@ -2517,7 +2517,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.4.23"
+                "source": "https://github.com/symfony/yaml/tree/v5.4.30"
             },
             "funding": [
                 {
@@ -2533,7 +2533,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-23T19:33:36+00:00"
+            "time": "2023-10-27T18:36:14+00:00"
         },
         {
             "name": "theseer/tokenizer",

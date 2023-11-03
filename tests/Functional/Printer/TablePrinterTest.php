@@ -6,7 +6,7 @@ namespace Medas\ConsolePrinterTest\Functional\Printer;
 
 use Medas\Console\ConsolePackage;
 use Medas\Console\Table;
-use Medas\ConsolePrinter\Printer\Table\TablePrinter;
+use Medas\ConsolePrinter\Tables\TablePrinter;
 use Medas\ConsolePrinterTest\Functional\BaseTestClass;
 use Medas\ServiceManager\ServiceManagerPackage;
 

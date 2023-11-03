@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Medas\ConsolePrinter\Printer\Table;
+namespace Medas\ConsolePrinter\Tables;
 
 use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
 use Medas\ConsolePrinter\ConfigOptions\NullGlyph;
