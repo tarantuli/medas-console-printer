@@ -8,6 +8,8 @@ use Medas\ServiceManager\{ServiceConfig, ServiceManager};
 
 chdir(__DIR__);
 
+require_once 'vendor/autoload.php';
+
 new ServiceManager(function (): ServiceConfig {
     $config = new ServiceConfig();
 

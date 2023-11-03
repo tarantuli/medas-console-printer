@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\{Printable, Printer, Table, Text};
+use Medas\Console\{Diff, Printable, Printer, Table, Text};
 use Medas\Core\Attributes\{ConfigValue, Service};
 
 #[Service]
@@ -13,6 +13,7 @@ readonly class ConsolePrinter implements Printer
     public function __construct(
         #[ConfigValue(ConfigOptions\NullGlyph::class)]
         private string              $nullGlyph,
+        private Diffs\DiffPrinter $diffPrinter,
         private Tables\TablePrinter $tablePrinter,
         private Texts\TextPrinter   $textPrinter,
     )
@@ -72,6 +73,11 @@ readonly class ConsolePrinter implements Printer
 
         if ($block instanceof Table) {
             $this->tablePrinter->print($block);
+            return;
+        }
+
+        if ($block instanceof Diff) {
+            $this->diffPrinter->print($block);
             return;
         }
 
