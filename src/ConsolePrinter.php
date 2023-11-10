@@ -32,6 +32,7 @@ readonly class ConsolePrinter implements Printer
     public function printLine(Printable ...$blocks): self
     {
         $this->print(...$blocks);
+
         echo "\n";
 
         return $this;
@@ -47,6 +48,7 @@ readonly class ConsolePrinter implements Printer
     public function printTextLine(string $text, mixed $format = null): Printer
     {
         $this->print(Text::create($text, $format));
+
         echo "\n";
 
         return $this;
