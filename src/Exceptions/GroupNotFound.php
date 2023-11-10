@@ -14,6 +14,7 @@ class GroupNotFound extends BaseException
     public function __construct(ConsoleCommandGroup|null $parent, string $name)
     {
         $this->parentIsRoot = $parent === null;
+
         parent::__construct($parent ? $parent->path() : '', $name);
     }
 

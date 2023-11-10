@@ -8,7 +8,7 @@ class Column
 {
     public function __construct(
         public string $header,
-        public int    $maxWidth
+        public int    $maxWidth,
     )
     {
     }

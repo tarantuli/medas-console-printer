@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter\Tables;
 
 use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
-use Medas\ConsolePrinter\ConfigOptions\NullGlyph;
-use Medas\ConsolePrinter\ConsolePrinter;
+use Medas\ConsolePrinter\{ConfigOptions\NullGlyph, ConsolePrinter};
 use Medas\Core\Attributes\{ConfigValue, Service};
 
 /**
@@ -16,10 +15,8 @@ use Medas\Core\Attributes\{ConfigValue, Service};
 class TablePrinter
 {
     private ConsolePrinter $printer;
-
     private Format $lineColor;
     private Format $headerColor = Style::Bold;
-
     private int $leftIndent = 3;
     private int $columnSeparator = 3;
 
@@ -59,6 +56,7 @@ class TablePrinter
         }
 
         $columns = [];
+
         foreach ($table->headers as $i => $header) {
             $maxWidths[$i] = max($maxWidths[$i], mb_strlen($header));
             $columns[] = new Column($header, $maxWidths[$i]);

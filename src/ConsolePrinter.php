@@ -13,7 +13,7 @@ readonly class ConsolePrinter implements Printer
     public function __construct(
         #[ConfigValue(ConfigOptions\NullGlyph::class)]
         private string              $nullGlyph,
-        private Diffs\DiffPrinter $diffPrinter,
+        private Diffs\DiffPrinter   $diffPrinter,
         private Tables\TablePrinter $tablePrinter,
         private Texts\TextPrinter   $textPrinter,
     )
@@ -63,21 +63,25 @@ readonly class ConsolePrinter implements Printer
     {
         if ($block === null) {
             echo $this->nullGlyph;
+
             return;
         }
 
         if ($block instanceof Text) {
             $this->textPrinter->print($block);
+
             return;
         }
 
         if ($block instanceof Table) {
             $this->tablePrinter->print($block);
+
             return;
         }
 
         if ($block instanceof Diff) {
             $this->diffPrinter->print($block);
+
             return;
         }
 

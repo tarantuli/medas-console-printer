@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\Commands\{ConsoleCommand, ConsoleCommandGroup};
-use Medas\Core\Attributes\Service;
-use Medas\Core\Interfaces\PrimesCache;
+use Medas\Console\{CommandRepository as ConCommandRepository, Commands\ConsoleCommand, Commands\ConsoleCommandGroup};
+use Medas\Core\{Attributes\Service, Interfaces\PrimesCache};
 use Medas\ServiceManager\Cache\CacheManager;
 
 #[Service]
-class CommandRepository implements \Medas\Console\CommandRepository, PrimesCache
+class CommandRepository implements ConCommandRepository, PrimesCache
 {
     private array $groups;
     private array $processors;
@@ -99,7 +98,10 @@ class CommandRepository implements \Medas\Console\CommandRepository, PrimesCache
                 $this->processors[] = service($processorName);
             }
 
-            usort($this->processors, fn(ConsoleCommand $a, ConsoleCommand $b) => strcasecmp($a->fullCommand(), $b->fullCommand()));
+            usort($this->processors, fn(
+                ConsoleCommand $a,
+                ConsoleCommand $b
+            ) => strcasecmp($a->fullCommand(), $b->fullCommand()));
         }
 
         return $this->processors;

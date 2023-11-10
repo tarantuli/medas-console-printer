@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter;
 
 use Medas\Console\{Formats\Color, Printer, Text};
-use Medas\Core\Attributes\Service;
-use Medas\Core\Exceptions\Suggestions;
-use Medas\Core\StringMaker;
+use Medas\Core\{Attributes\Service, Exceptions\Suggestions, StringMaker};
 
 #[Service]
 class ExceptionPrinter
@@ -49,16 +47,14 @@ class ExceptionPrinter
     {
         foreach (array_reverse($this->exception->getTrace()) as $trace) {
             if (isset($trace['file'])) {
-                $this->printer->printLine(new Text(
-                    $trace['file'] . ':' . $trace['line'],
-                    Color::LightGray
-                ));
+                $this->printer->printLine(new Text($trace['file'] . ':' . $trace['line'], Color::LightGray));
             }
 
-            $this->printer->printLine(new Text(
-                ' ' . (isset($trace['class']) ? $trace['class'] . $trace['type'] : '') . $trace['function'] . '()',
-                Color::LightYellow
-            ));
+            $this->printer->printLine(new Text(' ' . (
+                isset($trace['class'])
+                ? $trace['class'] . $trace['type']
+                : ''
+            ) . $trace['function'] . '()', Color::LightYellow));
 
             foreach ($trace['args'] as $i => $argument) {
                 $this->printer->printLine(
@@ -74,10 +70,7 @@ class ExceptionPrinter
     private function printExceptionInformation(): void
     {
         $this->printer
-            ->printLine(new Text(
-                $this->exception->getFile() . ':' . $this->exception->getLine(),
-                Color::LightGray
-            ))
+            ->printLine(new Text($this->exception->getFile() . ':' . $this->exception->getLine(), Color::LightGray))
             ->printLine(new Text(' Exception: ' . $this->exception::class, Color::LightYellow))
             ->printLine(new Text('   >', Color::Cyan), new Text('  ' . $this->exception->getMessage()))
             ->printLine();

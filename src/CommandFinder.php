@@ -20,7 +20,6 @@ readonly class CommandFinder
     {
         $groupNames = explode(':', $command);
         $processorName = array_pop($groupNames);
-
         $group = $this->findGroup($groupNames);
 
         return $this->findProcessor($group, $processorName);
