@@ -7,6 +7,7 @@ namespace Medas\ConsolePrinter\Tables;
 use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
 use Medas\ConsolePrinter\{ConfigOptions\NullGlyph, ConsolePrinter};
 use Medas\Core\Attributes\{ConfigValue, Service};
+use Medas\Core\StringMaker;
 
 /**
  * @see https://en.wikipedia.org/wiki/Box-drawing_character#Box_Drawing for box drawing characters
@@ -51,7 +52,11 @@ class TablePrinter
 
         foreach ($table->data as $record) {
             foreach ($record as $i => $value) {
-                $maxWidths[$i] = max($maxWidths[$i], mb_strlen((string) $value));
+                if (!is_string($value)) {
+                    $value = StringMaker::instance()->fromVariable($value, true, true);
+                }
+
+                $maxWidths[$i] = max($maxWidths[$i], mb_strlen($value));
             }
         }
 
@@ -93,7 +98,7 @@ class TablePrinter
             return $value;
         }
 
-        if (is_int($value)) {
+        if (is_numeric($value)) {
             return str_repeat(' ', $padLength) . $value;
         }
         else {
@@ -129,7 +134,11 @@ class TablePrinter
                 $elements[] = new Text(str_repeat(' ', $this->columnSeparator), $this->lineColor);
             }
 
-            $elements[] = new Text($this->padString((string) $value, $this->columns[$i]->maxWidth));
+            if (!is_string($value)) {
+                $value = StringMaker::instance()->fromVariable($value, true, true);
+            }
+
+            $elements[] = new Text($this->padString($value, $this->columns[$i]->maxWidth));
         }
 
         $this->printer->printLine(...$elements);
