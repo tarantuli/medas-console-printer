@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Formats;
 
-use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
 use Medas\ConsolePrinter\Exceptions\UnknownFormat;
+use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
 use Medas\Core\Attributes\Service;
 
 /**
@@ -65,6 +65,7 @@ class BashFormat
     public const COLOR256 = '38;5;';
     public const COLOR256_BG = '48;5;';
 
+    // XTERM codes
     public const XTERM256_CODES = [
         '#000000' => '0',
         '#800000' => '1',
@@ -328,10 +329,12 @@ class BashFormat
         }
 
         return match ($format) {
+            // Styles
             Style::Bold => self::BOLD,
             Style::Dim => self::DIM,
             Style::Underlined => self::UNDERLINED,
 
+            // Colors
             Color::Default => self::DEFAULT,
             Color::Black => self::BLACK,
             Color::Red => self::RED,
@@ -350,6 +353,7 @@ class BashFormat
             Color::White => self::WHITE,
             Color::Gray => self::GRAY,
 
+            // Background colors
             BgColor::Default => self::DEFAULT_BG,
             BgColor::Black => self::BLACK_BG,
             BgColor::Red => self::RED_BG,
@@ -368,6 +372,7 @@ class BashFormat
             BgColor::White => self::WHITE_BG,
             BgColor::Gray => self::GRAY_BG,
 
+            // Default exceptions
             default => throw new UnknownFormat($format),
         };
     }

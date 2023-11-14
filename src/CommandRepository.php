@@ -98,10 +98,10 @@ class CommandRepository implements ConCommandRepository, PrimesCache
                 $this->processors[] = service($processorName);
             }
 
-            usort($this->processors, fn(
-                ConsoleCommand $a,
-                ConsoleCommand $b
-            ) => strcasecmp($a->fullCommand(), $b->fullCommand()));
+            usort(
+                $this->processors,
+                fn(ConsoleCommand $a, ConsoleCommand $b) => strcasecmp($a->fullCommand(), $b->fullCommand())
+            );
         }
 
         return $this->processors;
