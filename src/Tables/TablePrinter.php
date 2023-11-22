@@ -78,7 +78,10 @@ class TablePrinter
                 $elements[] = new Text(str_repeat(' ', $this->columnSeparator), $this->lineColor);
             }
 
-            $elements[] = new Text($this->padString($column->header, $column->maxWidth), $this->headerColor);
+            $elements[] = new Text(
+                $this->padString($column->header, $column->maxWidth),
+                $this->headerColor
+            );
         }
 
         $this->printer->printLine(...$elements);

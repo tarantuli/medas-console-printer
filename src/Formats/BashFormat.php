@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Formats;
 
-use Medas\ConsolePrinter\Exceptions\UnknownFormat;
 use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
+use Medas\ConsolePrinter\Exceptions\UnknownFormat;
 use Medas\Core\Attributes\Service;
 
 /**

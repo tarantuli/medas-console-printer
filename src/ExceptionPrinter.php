@@ -105,6 +105,11 @@ class ExceptionPrinter
 
     private function printAnyExceptionInformation(): void
     {
-        echo $this->exception->getFile(), ':', $this->exception->getLine(), ' ', $this->exception->getMessage(), "\n";
+        echo $this->exception->getFile(),
+            ':',
+            $this->exception->getLine(),
+            ' ',
+            $this->exception->getMessage(),
+            "\n";
     }
 }

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\{CommandRepository as ConCommandRepository, Commands\ConsoleCommand, Commands\ConsoleCommandGroup};
+use Medas\Console\{
+    CommandRepository as ConCommandRepository,
+    Commands\ConsoleCommand,
+    Commands\ConsoleCommandGroup
+};
 use Medas\Core\{Attributes\Service, Interfaces\PrimesCache};
 use Medas\ServiceManager\Cache\CacheManager;
 
@@ -38,7 +42,9 @@ class CommandRepository implements ConCommandRepository, PrimesCache
     public function getAllGroups(): array
     {
         if (!isset($this->groups)) {
-            $groupNames = $this->cacheManager->get()->get([$this::class, 'getAllGroupNames'], function () {
+            $groupNames = $this->cacheManager->get()->get(
+                [$this::class, 'getAllGroupNames'],
+                function () {
                 return $this->findAllGroupNames();
             });
 
@@ -88,7 +94,9 @@ class CommandRepository implements ConCommandRepository, PrimesCache
     public function getAllCommands(): array
     {
         if (!isset($this->processors)) {
-            $processorNames = $this->cacheManager->get()->get([$this::class, 'getAllProcessorNames'], function () {
+            $processorNames = $this->cacheManager->get()->get(
+                [$this::class, 'getAllProcessorNames'],
+                function () {
                 return $this->findAllProcessorNames();
             });
 
