@@ -136,11 +136,16 @@ class TablePrinter
                 $elements[] = new Text(str_repeat(' ', $this->columnSeparator), $this->lineColor);
             }
 
-            if (!is_string($value)) {
-                $value = StringMaker::instance()->fromVariable($value, true, true);
+            if ($value instanceof Text) {
+                $elements[] = new Text($this->padString($value->text, $this->columns[$i]->maxWidth), $value->format);
             }
+            else {
+                if (!is_string($value)) {
+                    $value = StringMaker::instance()->fromVariable($value, true, true);
+                }
 
-            $elements[] = new Text($this->padString($value, $this->columns[$i]->maxWidth));
+                $elements[] = new Text($this->padString($value, $this->columns[$i]->maxWidth));
+            }
         }
 
         $this->printer->printLine(...$elements);
