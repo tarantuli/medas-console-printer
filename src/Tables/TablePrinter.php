@@ -51,7 +51,10 @@ class TablePrinter
 
         foreach ($table->data as $record) {
             foreach ($record as $i => $value) {
-                if (!is_string($value)) {
+                if ($value instanceof Text) {
+                    $value = $value->text;
+                }
+                elseif (!is_string($value)) {
                     $value = StringMaker::instance()->fromVariable($value, true, true);
                 }
 
