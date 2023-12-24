@@ -90,27 +90,6 @@ class TablePrinter
         $this->printer->printLine(...$elements);
     }
 
-    private function initializeElements(): array
-    {
-        return [new Text(str_repeat(' ', $this->leftIndent))];
-    }
-
-    private function padString(mixed $value, int $width): string
-    {
-        $padLength = $width - mb_strwidth((string) $value);
-
-        if ($padLength <= 0) {
-            return $value;
-        }
-
-        if (is_numeric($value)) {
-            return str_repeat(' ', $padLength) . $value;
-        }
-        else {
-            return $value . str_repeat(' ', $padLength);
-        }
-    }
-
     private function printHorizontalBorder(): void
     {
         $elements = $this->initializeElements();
@@ -140,7 +119,10 @@ class TablePrinter
             }
 
             if ($value instanceof Text) {
-                $elements[] = new Text($this->padString($value->text, $this->columns[$i]->maxWidth), $value->format);
+                $elements[] = new Text(
+                    $this->padString($value->text, $this->columns[$i]->maxWidth),
+                    $value->format
+                );
             }
             else {
                 if (!is_string($value)) {
@@ -152,5 +134,26 @@ class TablePrinter
         }
 
         $this->printer->printLine(...$elements);
+    }
+
+    private function initializeElements(): array
+    {
+        return [new Text(str_repeat(' ', $this->leftIndent))];
+    }
+
+    private function padString(mixed $value, int $width): string
+    {
+        $padLength = $width - mb_strwidth((string) $value);
+
+        if ($padLength <= 0) {
+            return $value;
+        }
+
+        if (is_numeric($value)) {
+            return str_repeat(' ', $padLength) . $value;
+        }
+        else {
+            return $value . str_repeat(' ', $padLength);
+        }
     }
 }

@@ -29,6 +29,35 @@ readonly class ConsolePrinter implements Printer
         return $this;
     }
 
+    private function printBlock(Printable|null $block): void
+    {
+        if ($block === null) {
+            echo $this->nullGlyph;
+
+            return;
+        }
+
+        if ($block instanceof Text) {
+            $this->textPrinter->print($block);
+
+            return;
+        }
+
+        if ($block instanceof Table) {
+            $this->tablePrinter->print($block);
+
+            return;
+        }
+
+        if ($block instanceof Diff) {
+            $this->diffPrinter->print($block);
+
+            return;
+        }
+
+        throw new Exceptions\NoPrintingImplementationForBlockType($block);
+    }
+
     public function printLine(Printable ...$blocks): self
     {
         $this->print(...$blocks);
@@ -59,34 +88,5 @@ readonly class ConsolePrinter implements Printer
         echo "\n";
 
         return $this;
-    }
-
-    private function printBlock(Printable|null $block): void
-    {
-        if ($block === null) {
-            echo $this->nullGlyph;
-
-            return;
-        }
-
-        if ($block instanceof Text) {
-            $this->textPrinter->print($block);
-
-            return;
-        }
-
-        if ($block instanceof Table) {
-            $this->tablePrinter->print($block);
-
-            return;
-        }
-
-        if ($block instanceof Diff) {
-            $this->diffPrinter->print($block);
-
-            return;
-        }
-
-        throw new Exceptions\NoPrintingImplementationForBlockType($block);
     }
 }
