@@ -1,6 +1,9 @@
 {
     "name": "morphp/medas-console-printer",
     "description": "Medas console printer",
+    "keywords": [
+        "console"
+    ],
     "authors": [
         {
             "name": "Patrick Morpey",
