@@ -7,7 +7,7 @@ namespace Medas\ConsolePrinter\ConfigOptions;
 use Medas\Core\{Attributes\Service, Interfaces\ConfigGroup};
 
 #[Service]
-class Group implements ConfigGroup
+class ConsolePrinterConfigGroup implements ConfigGroup
 {
     public function parent(): ConfigGroup|null
     {
