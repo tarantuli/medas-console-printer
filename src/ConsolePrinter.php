@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\{Diff, Printable, Printer, Table, Text};
+use Medas\Console\{Blocks, Diff, Printable, Printer, Table, Text};
 use Medas\Core\Attributes\{ConfigValue, Service};
 
 #[Service]
@@ -51,6 +51,14 @@ readonly class ConsolePrinter implements Printer
 
         if ($block instanceof Diff) {
             $this->diffPrinter->print($block);
+
+            return;
+        }
+
+        if ($block instanceof Blocks) {
+            foreach ($block->blocks as $subBlock) {
+                $this->printBlock($subBlock);
+            }
 
             return;
         }

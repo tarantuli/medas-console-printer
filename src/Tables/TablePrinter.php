@@ -55,7 +55,10 @@ class TablePrinter
                     $value = $value->text;
                 }
                 elseif (!is_string($value)) {
-                    $value = StringMaker::instance()->fromVariable($value, StringMaker\Settings::forDisplay());
+                    $value = StringMaker::instance()->fromVariable(
+                        $value,
+                        StringMaker\Settings::forDisplay()
+                    );
                 }
 
                 $maxWidths[$i] = max($maxWidths[$i], mb_strlen($value));
@@ -126,7 +129,10 @@ class TablePrinter
             }
             else {
                 if (!is_string($value)) {
-                    $value = StringMaker::instance()->fromVariable($value, StringMaker\Settings::forDisplay());
+                    $value = StringMaker::instance()->fromVariable(
+                        $value,
+                        StringMaker\Settings::forDisplay()
+                    );
                 }
 
                 $elements[] = new Text($this->padString($value, $this->columns[$i]->maxWidth));
