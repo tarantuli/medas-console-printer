@@ -34,7 +34,7 @@ class CommandRepository implements CommandRepositoryInterface, PrimesCache
             );
         }
 
-        if (!$this->aliases[$command]) {
+        if (!array_key_exists($command, $this->aliases)) {
             return null;
         }
 
