@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter;
 
 use Medas\Console\{
-    CommandRepository as ConCommandRepository,
+    CommandRepository as CommandRepositoryInterface,
     Commands\ConsoleCommand,
     Commands\ConsoleCommandGroup
 };
@@ -13,15 +13,58 @@ use Medas\Core\{Attributes\Service, Interfaces\PrimesCache};
 use Medas\ServiceManager\Cache\CacheManager;
 
 #[Service]
-class CommandRepository implements ConCommandRepository, PrimesCache
+class CommandRepository implements CommandRepositoryInterface, PrimesCache
 {
     private array $groups;
     private array $processors;
+    private array $aliases;
 
     public function __construct(
         private readonly CacheManager $cacheManager,
     )
     {
+    }
+
+    public function findAlias(string $command): ConsoleCommand|null
+    {
+        if (!isset($this->aliases)) {
+            $this->aliases = $this->cacheManager->get()->get(
+                [$this::class, 'getAllAliases'],
+                fn() => $this->findAllAliases()
+            );
+        }
+
+        if (!$this->aliases[$command]) {
+            return null;
+        }
+
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return service($this->aliases[$command]);
+    }
+
+    private function findAllAliases(): array
+    {
+        $aliases = [];
+
+        foreach ($this->getAllCommands() as $processor) {
+            foreach ($processor->aliases() as $alias) {
+                if (!preg_match('/^[a-z0-9][a-z0-9.-]*[a-z0-9]$/', $alias)) {
+                    throw new Exceptions\FoundInvalidAlias($alias);
+                }
+
+                if (array_key_exists($alias, $aliases)) {
+                    throw new Exceptions\FoundDuplicateAliases(
+                        $alias,
+                        $processor::class,
+                        $aliases[$alias]
+                    );
+                }
+
+                $aliases[$alias] = $processor::class;
+            }
+        }
+
+        return $aliases;
     }
 
     /** @return ConsoleCommandGroup[] */
@@ -44,9 +87,8 @@ class CommandRepository implements ConCommandRepository, PrimesCache
         if (!isset($this->groups)) {
             $groupNames = $this->cacheManager->get()->get(
                 [$this::class, 'getAllGroupNames'],
-                function () {
-                return $this->findAllGroupNames();
-            });
+                fn() => $this->findAllGroupNames()
+            );
 
             $this->groups = [];
 
@@ -96,9 +138,8 @@ class CommandRepository implements ConCommandRepository, PrimesCache
         if (!isset($this->processors)) {
             $processorNames = $this->cacheManager->get()->get(
                 [$this::class, 'getAllProcessorNames'],
-                function () {
-                return $this->findAllProcessorNames();
-            });
+                fn() => $this->findAllProcessorNames()
+            );
 
             $this->processors = [];
 

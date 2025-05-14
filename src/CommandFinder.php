@@ -18,6 +18,10 @@ readonly class CommandFinder
 
     public function find(string $command): ConsoleCommand
     {
+        if ($processor = $this->repository->findAlias($command)) {
+            return $processor;
+        }
+
         $groupNames = explode(':', $command);
         $processorName = array_pop($groupNames);
         $group = $this->findGroup($groupNames);
