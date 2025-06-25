@@ -10,7 +10,6 @@ use Medas\Console\{
     Commands\ConsoleCommandGroup
 };
 use Medas\Core\{Attributes\Service, Interfaces\PrimesCache};
-use Medas\ServiceManager\Cache\CacheManager;
 
 #[Service]
 class CommandRepository implements CommandRepositoryInterface, PrimesCache
@@ -19,16 +18,10 @@ class CommandRepository implements CommandRepositoryInterface, PrimesCache
     private array $processors;
     private array $aliases;
 
-    public function __construct(
-        private readonly CacheManager $cacheManager,
-    )
-    {
-    }
-
     public function findAlias(string $command): ConsoleCommand|null
     {
         if (!isset($this->aliases)) {
-            $this->aliases = $this->cacheManager->get()->get(
+            $this->aliases = cache(
                 [$this::class, 'getAllAliases'],
                 fn() => $this->findAllAliases()
             );
@@ -85,7 +78,7 @@ class CommandRepository implements CommandRepositoryInterface, PrimesCache
     public function getAllGroups(): array
     {
         if (!isset($this->groups)) {
-            $groupNames = $this->cacheManager->get()->get(
+            $groupNames = cache(
                 [$this::class, 'getAllGroupNames'],
                 fn() => $this->findAllGroupNames()
             );
@@ -136,7 +129,7 @@ class CommandRepository implements CommandRepositoryInterface, PrimesCache
     public function getAllCommands(): array
     {
         if (!isset($this->processors)) {
-            $processorNames = $this->cacheManager->get()->get(
+            $processorNames = cache(
                 [$this::class, 'getAllProcessorNames'],
                 fn() => $this->findAllProcessorNames()
             );
