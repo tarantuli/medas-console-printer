@@ -8,12 +8,15 @@ use Medas\Console\Printable;
 
 class Options
 {
-    public Printable|null $prompt;
+    public function __construct(
+        public Printable|null $prompt = null,
 
-    /**
-     * The validator should accept one argument, the input, and return a boolean
-     */
-    public \Closure|null $validator;
-
-    public bool $doTrim = true;
+        /**
+         * The validator should accept one argument, the input, and return a boolean
+         */
+        public \Closure|null  $validator = null,
+        public bool           $doTrim = true,
+    )
+    {
+    }
 }
