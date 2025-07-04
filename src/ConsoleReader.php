@@ -38,6 +38,10 @@ readonly class ConsoleReader
                     $input = trim($input);
                 }
 
+                if ($input === '' && $options->default !== null) {
+                    $input = $options->default;
+                }
+
                 $isValid = !$options->validator || ($options->validator)($input);
             }
         } while (!$isValid);
