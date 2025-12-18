@@ -14,7 +14,7 @@ readonly class InputValidators
         return fn(string $input) => filter_var($input, FILTER_VALIDATE_EMAIL);
     }
 
-    public function string(int $minLength = 1, int $maxLength = null): \Closure
+    public function string(int $minLength = 1, ?int $maxLength = null): \Closure
     {
         return fn(string $input) => strlen($input) >= $minLength && (
             $maxLength === null
@@ -22,7 +22,7 @@ readonly class InputValidators
         );
     }
 
-    public function integer(int $minValue = 0, int $maxValue = null): \Closure
+    public function integer(int $minValue = 0, ?int $maxValue = null): \Closure
     {
         return fn(string $input) => preg_match('/^-?\d+$/', $input)
             && (int) $input >= $minValue

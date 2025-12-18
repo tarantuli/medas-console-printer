@@ -10,7 +10,7 @@ use Medas\ServiceManager\Package;
 #[Service]
 class CommandProcessor
 {
-    private const DEFAULT_COMMAND = 'console:command-list';
+    private const string DEFAULT_COMMAND = 'console:command-list';
 
     public function __construct(
         private readonly CommandFinder    $commandFinder,
