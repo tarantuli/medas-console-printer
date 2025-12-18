@@ -11,11 +11,12 @@ use Medas\Core\Attributes\{ConfigValue, Service};
 readonly class ConsolePrinter implements Printer
 {
     public function __construct(
-        #[ConfigValue(ConfigOptions\NullGlyph::class)]
-        private string              $nullGlyph,
         private Diffs\DiffPrinter   $diffPrinter,
         private Tables\TablePrinter $tablePrinter,
         private Texts\TextPrinter   $textPrinter,
+
+        #[ConfigValue(ConfigOptions\NullGlyph::class)]
+        private string              $nullGlyph,
     )
     {
     }

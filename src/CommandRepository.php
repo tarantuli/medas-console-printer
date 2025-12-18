@@ -61,7 +61,7 @@ class CommandRepository implements CommandRepositoryInterface, PrimesCache
     }
 
     /** @return ConsoleCommandGroup[] */
-    public function getGroups(?ConsoleCommandGroup $parent = null): array
+    public function getGroups(ConsoleCommandGroup|null $parent = null): array
     {
         $groups = [];
 
