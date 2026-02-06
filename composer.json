@@ -1,32 +1,31 @@
 {
-    "name": "morphp/medas-console-printer",
-    "description": "Medas console printer",
-    "keywords": [
-        "console"
-    ],
-    "authors": [
-        {
-            "name": "Patrick Morpey",
-            "email": "patrick@morphp.nl"
-        }
-    ],
-    "type": "library",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require": {
-        "morphp/medas-core": "dev-dev",
-        "morphp/medas-console": "dev-dev",
-        "morphp/medas-service-manager": "dev-dev"
-    },
-    "require-dev": {
-        "morphp/medas-config-manager": "dev-dev",
-        "morphp/medas-config-options": "dev-dev",
-        "phpunit/phpunit": "^9.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Medas\\ConsolePrinter\\": "src/",
-            "Medas\\ConsolePrinterTest\\": "tests/"
-        }
+  "name": "morphp/medas-console-printer",
+  "description": "Medas console printer",
+  "version": "2.0.0",
+  "keywords": [
+    "console"
+  ],
+  "authors": [
+    {
+      "name": "Patrick Morpey",
+      "email": "patrick@morphp.nl"
     }
+  ],
+  "type": "library",
+  "require": {
+    "morphp/medas-core": "^2",
+    "morphp/medas-console": "^2",
+    "morphp/medas-service-manager": "^2"
+  },
+  "require-dev": {
+    "morphp/medas-config-manager": "^2",
+    "morphp/medas-config-options": "^2",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Medas\\ConsolePrinter\\": "src/",
+      "Medas\\ConsolePrinterTest\\": "tests/"
+    }
+  }
 }
