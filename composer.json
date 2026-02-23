@@ -1,7 +1,6 @@
 {
   "name": "morphp/medas-console-printer",
   "description": "Medas console printer",
-  "version": "2.0.0",
   "keywords": [
     "console"
   ],
@@ -13,15 +12,15 @@
   ],
   "type": "library",
   "require": {
-    "morphp/medas-core": "^2",
-    "morphp/medas-console": "^2",
-    "morphp/medas-service-manager": "^2",
+    "morphp/medas-core": "^3",
+    "morphp/medas-console": "^3",
+    "morphp/medas-service-manager": "^3",
     "php": "^8.4"
   },
   "require-dev": {
-    "morphp/medas-config-manager": "^2",
-    "morphp/medas-config-options": "^2",
-    "phpunit/phpunit": "^9.5"
+    "morphp/medas-config-manager": "^3",
+    "morphp/medas-config-options": "^3",
+    "phpunit/phpunit": "^10"
   },
   "autoload": {
     "psr-4": {
