@@ -124,7 +124,7 @@ class TablePrinter
             if ($value instanceof Text) {
                 $elements[] = new Text(
                     $this->padString($value->text, $this->columns[$i]->maxWidth),
-                    $value->format
+                    ...$value->format
                 );
             }
             else {

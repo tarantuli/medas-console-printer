@@ -19,7 +19,7 @@ readonly class TextPrinter
 
     public function print(Text $block): void
     {
-        if ($block->format === null) {
+        if ($block->format === []) {
             echo $block->text;
         }
         else {

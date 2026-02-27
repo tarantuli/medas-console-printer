@@ -24,7 +24,11 @@
   },
   "autoload": {
     "psr-4": {
-      "Medas\\ConsolePrinter\\": "src/",
+      "Medas\\ConsolePrinter\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Medas\\ConsolePrinterTest\\": "tests/"
     }
   }
