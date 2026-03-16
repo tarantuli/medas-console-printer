@@ -33,6 +33,10 @@ readonly class TextPrinter
         $codes = [];
 
         foreach (is_array($formats) ? $formats : [$formats] as $format) {
+            if ($format === null) {
+                continue;
+            }
+
             $codes[] = $this->bashFormat->getCode($format);
         }
 
