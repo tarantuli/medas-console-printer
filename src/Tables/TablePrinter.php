@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter\Tables;
 
 use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
-use Medas\ConsolePrinter\{ConfigOptions\NullGlyph, ConsolePrinter};
+use Medas\ConsolePrinter\{
+    ConfigOptions\NullGlyph,
+    ConfigOptions\TableColumnSeparator,
+    ConfigOptions\TableLeftIndent,
+    ConsolePrinter
+};
 use Medas\Core\{Attributes\ConfigValue, Attributes\Service, StringMaker};
 
 /**
@@ -17,8 +22,6 @@ class TablePrinter
     private ConsolePrinter $printer;
     private Format $lineColor;
     private Format $headerColor = Style::Bold;
-    private int $leftIndent = 3;
-    private int $columnSeparator = 3;
 
     /** @var Column[] */
     private array $columns;
@@ -26,6 +29,12 @@ class TablePrinter
     public function __construct(
         #[ConfigValue(NullGlyph::class)]
         private readonly string $nullGlyph,
+
+        #[ConfigValue(TableLeftIndent::class)]
+        private readonly int    $leftIndent,
+
+        #[ConfigValue(TableColumnSeparator::class)]
+        private readonly int    $columnSeparator,
     )
     {
         $this->lineColor = new HexColor('#005f00');
