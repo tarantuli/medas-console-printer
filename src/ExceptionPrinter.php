@@ -8,86 +8,75 @@ use Medas\Console\{Formats\Color, Printer, Text};
 use Medas\Core\{Attributes\Service, Exceptions\Suggestions, StringMaker};
 
 #[Service]
-class ExceptionPrinter
+readonly class ExceptionPrinter
 {
-    private Printer|null $printer = null;
-    private \Throwable $exception;
-
     public function print(\Throwable $exception): void
     {
-        $this->exception = $exception;
-
         try {
-            $this->loadPrinter();
-            $this->printVerboseExceptionInformation();
+            // Fetch the service as late as possible, here, and not in the constructor through injection.
+            // The printer itself could be the cause of the exception.
+            $printer = service(Printer::class);
+
+            $this->printVerboseExceptionInformation($exception, $printer);
         }
         catch (\Throwable) {
             // Last ditch effort to print something useful
-            $this->printAnyExceptionInformation();
+            $this->printAnyExceptionInformation($exception);
         }
     }
 
-    private function loadPrinter(): void
+    private function printVerboseExceptionInformation(\Throwable $exception, Printer $printer): void
     {
-        if ($this->printer === null) {
-            // Fetch the service as late as possible, here, and not in the constructor through injection.
-            // The printer itself could be the cause of the exception.
-            $this->printer = service(Printer::class);
-        }
+        $this->printBacktrace($exception, $printer);
+        $this->printExceptionInformation($exception, $printer);
+        $this->printSuggestions($exception, $printer);
     }
 
-    private function printVerboseExceptionInformation(): void
+    private function printBacktrace(\Throwable $exception, Printer $printer): void
     {
-        $this->printBacktrace();
-        $this->printExceptionInformation();
-        $this->printSuggestions();
-    }
-
-    private function printBacktrace(): void
-    {
-        foreach (array_reverse($this->exception->getTrace()) as $trace) {
+        foreach (array_reverse($exception->getTrace()) as $trace) {
             if (isset($trace['file'])) {
-                $this->printer->printLine(new Text($trace['file'] . ':' . $trace['line'], Color::LightGray));
+                $printer->printLine(new Text($trace['file'] . ':' . $trace['line'], Color::LightGray));
             }
 
-            $this->printer->printLine(new Text(' ' . (
+            $printer->printLine(new Text(' ' . (
                 isset($trace['class'])
                 ? $trace['class'] . $trace['type']
                 : ''
             ) . $trace['function'] . '()', Color::LightYellow));
 
-            foreach ($trace['args'] as $i => $argument) {
-                $this->printer->printLine(
+            foreach ($trace['args'] ?? [] as $i => $argument) {
+                $printer->printLine(
                     new Text('   ' . $i, Color::Cyan),
                     new Text('  ' . StringMaker::instance()->fromVariable($argument, StringMaker\Settings::forDisplay())),
                 );
             }
 
-            $this->printer->printLine();
+            $printer->printLine();
         }
     }
 
-    private function printExceptionInformation(): void
+    private function printExceptionInformation(\Throwable $exception, Printer $printer): void
     {
-        $this->printer
-            ->printLine(new Text($this->exception->getFile() . ':' . $this->exception->getLine(), Color::LightGray))
-            ->printLine(new Text(' Exception: ' . $this->exception::class, Color::LightYellow))
-            ->printLine(new Text('   >', Color::Cyan), new Text('  ' . $this->exception->getMessage()))
+        $printer
+            ->printLine(new Text($exception->getFile() . ':' . $exception->getLine(), Color::LightGray))
+            ->printLine(new Text(' Exception: ' . $exception::class, Color::LightYellow))
+            ->printLine(new Text('   >', Color::Cyan), new Text('  ' . $exception->getMessage()))
             ->printLine();
     }
 
-    private function printSuggestions(): void
+    private function printSuggestions(\Throwable $exception, Printer $printer): void
     {
-        if (!$this->exception instanceof Suggestions) {
+        if (!$exception instanceof Suggestions) {
             return;
         }
 
-        $this->printer->printLine(new Text(' Suggestions:', Color::LightYellow));
+        $printer->printLine(new Text(' Suggestions:', Color::LightYellow));
 
-        foreach ($this->exception->suggestions() as $key => $value) {
+        foreach ($exception->suggestions() as $key => $value) {
             if (is_string($key)) {
                 $suggestion = $key;
-                $indentation = $value;
+                $indentation = (int) $value;
             }
             else {
                 $suggestion = $value;
@@ -96,20 +85,15 @@ class ExceptionPrinter
 
             $prefix = '   ' . str_repeat('   ', $indentation) . '>  ';
 
-            $this->printer
+            $printer
                 ->printLine(new Text($prefix, Color::Cyan), new Text($suggestion));
         }
 
-        $this->printer->printLine();
+        $printer->printLine();
     }
 
-    private function printAnyExceptionInformation(): void
+    private function printAnyExceptionInformation(\Throwable $exception): void
     {
-        echo $this->exception->getFile(),
-            ':',
-            $this->exception->getLine(),
-            ' ',
-            $this->exception->getMessage(),
-            "\n";
+        echo $exception->getFile(), ':', $exception->getLine(), ' ', $exception->getMessage(), "\n";
     }
 }

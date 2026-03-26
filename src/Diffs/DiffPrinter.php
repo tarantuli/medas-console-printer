@@ -11,10 +11,8 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class DiffPrinter
 {
-    public function print(Diff $diff): void
+    public function print(Diff $diff, ConsolePrinter $printer): void
     {
-        $consolePrinter = service(ConsolePrinter::class);
-
         foreach (explode("\n", $diff->output) as $line) {
             if (in_array(substr($line, 0, 3), ['+++', '---'])) {
                 continue;
@@ -26,9 +24,10 @@ readonly class DiffPrinter
                 '-' => Color::Red,
                 '@' => Color::Blue,
                 '', ' ' => Color::Gray,
+                default => Color::White,
             };
 
-            $consolePrinter->printLine(Text::create($line, $color));
+            $printer->printLine(Text::create($line, $color));
         }
     }
 }

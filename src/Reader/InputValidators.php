@@ -11,14 +11,14 @@ readonly class InputValidators
 {
     public function emailAddress(): \Closure
     {
-        return fn(string $input) => filter_var($input, FILTER_VALIDATE_EMAIL);
+        return fn(string $input) => (bool) filter_var($input, FILTER_VALIDATE_EMAIL);
     }
 
     public function string(int $minLength = 1, int|null $maxLength = null): \Closure
     {
-        return fn(string $input) => strlen($input) >= $minLength && (
+        return fn(string $input) => mb_strlen($input) >= $minLength && (
             $maxLength === null
-            || strlen($input) <= $maxLength
+            || mb_strlen($input) <= $maxLength
         );
     }
 

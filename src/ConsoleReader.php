@@ -18,7 +18,20 @@ readonly class ConsoleReader
         private ConsolePrinter $printer,
     )
     {
-        $this->stdin = fopen('php://stdin', 'r');
+        $stdin = fopen('php://stdin', 'r');
+
+        if ($stdin === false) {
+            throw new \RuntimeException('Failed to open stdin for reading.');
+        }
+
+        $this->stdin = $stdin;
+    }
+
+    public function __destruct()
+    {
+        if (is_resource($this->stdin)) {
+            fclose($this->stdin);
+        }
     }
 
     public function read(Reader\Options $options): string
@@ -31,19 +44,18 @@ readonly class ConsoleReader
             $input = fgets($this->stdin);
 
             if ($input === false) {
-                $isValid = false;
+                throw new \RuntimeException('Failed to read from stdin: stream closed or EOF reached.');
             }
-            else {
-                if ($options->doTrim) {
-                    $input = trim($input);
-                }
 
-                if ($input === '' && $options->default !== null) {
-                    $input = $options->default;
-                }
-
-                $isValid = !$options->validator || ($options->validator)($input);
+            if ($options->doTrim) {
+                $input = trim($input);
             }
+
+            if ($input === '' && $options->default !== null) {
+                $input = $options->default;
+            }
+
+            $isValid = !$options->validator || ($options->validator)($input);
         } while (!$isValid);
 
         return $input;

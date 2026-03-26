@@ -27,6 +27,10 @@ readonly class Finder
         $processorName = array_pop($groupNames);
         $group = $this->findGroup($groupNames);
 
+        if ($group === null) {
+            throw new Exceptions\NoGroupNotFound($groupNames);
+        }
+
         return $this->findProcessor($group, $processorName);
     }
 
@@ -67,7 +71,7 @@ readonly class Finder
         return $candidateGroups[0];
     }
 
-    private function findProcessor($group, $name): ConsoleCommand
+    private function findProcessor(ConsoleCommandGroup $group, string $name): ConsoleCommand
     {
         $processors = $this->repository->getProcessors($group);
         $candidateProcessors = [];

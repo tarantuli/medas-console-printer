@@ -15,6 +15,6 @@ class MultipleShortCodesWithValueGiven extends BaseException
 
     public function pattern(): string
     {
-        return 'Multiple short codes %s given plusa value %s';
+        return 'Multiple short codes %s given plus a value %s';
     }
 }

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Tables;
 
-use Medas\Console\{Formats\Format, Formats\HexColor, Formats\Style, Table, Text};
+use Medas\Console\{Table, Text};
 use Medas\ConsolePrinter\{
     ConfigOptions\NullGlyph,
     ConfigOptions\TableColumnSeparator,
     ConfigOptions\TableLeftIndent,
-    ConsolePrinter
+    ConsolePrinter,
+    Exceptions\RecordAndHeaderHaveDifferentLengths
 };
 use Medas\Core\{Attributes\ConfigValue, Attributes\Service, StringMaker};
 
@@ -17,48 +18,50 @@ use Medas\Core\{Attributes\ConfigValue, Attributes\Service, StringMaker};
  * @see https://en.wikipedia.org/wiki/Box-drawing_character#Box_Drawing for box drawing characters
  */
 #[Service]
-class TablePrinter
+readonly class TablePrinter
 {
-    private ConsolePrinter $printer;
-    private Format $lineColor;
-    private Format $headerColor = Style::Bold;
-
-    /** @var Column[] */
-    private array $columns;
-
     public function __construct(
         #[ConfigValue(NullGlyph::class)]
-        private readonly string $nullGlyph,
+        private string $nullGlyph,
 
         #[ConfigValue(TableLeftIndent::class)]
-        private readonly int    $leftIndent,
+        private int    $leftIndent,
 
         #[ConfigValue(TableColumnSeparator::class)]
-        private readonly int    $columnSeparator,
+        private int    $columnSeparator,
     )
     {
-        $this->lineColor = new HexColor('#005f00');
     }
 
-    public function print(Table $table): void
+    public function print(Table $table, ConsolePrinter $printer, TablePrinter\Settings|null $settings = null): void
     {
-        $this->columns = $this->getColumns($table);
-        $this->printer = service(ConsolePrinter::class);
+        $job = new TablePrinter\Job($table, $printer, $settings ?? new TablePrinter\Settings());
 
-        $this->printHeader();
-        $this->printHorizontalBorder();
+        $this->determineColumns($job, $table);
+        $this->printHeader($job);
+        $this->printHorizontalBorder($job);
 
         foreach ($table->data as $record) {
-            $this->printRecord($record);
+            $this->printRecord($job, array_values($record));
         }
     }
 
-    /** @return Column[] */
-    private function getColumns(Table $table): array
+    private function determineColumns(TablePrinter\Job $job, Table $table): void
     {
-        $maxWidths = array_fill(0, count($table->headers), 0);
+        $headerCount = count($table->headers);
+        $maxWidths = array_fill(0, $headerCount, 0);
 
-        foreach ($table->data as $record) {
+        foreach ($table->data as $recordIndex => $record) {
+            $record = array_values($record);
+
+            if (count($record) !== $headerCount) {
+                throw new RecordAndHeaderHaveDifferentLengths(
+                    $recordIndex,
+                    $record,
+                    $table->headers
+                );
+            }
+
             foreach ($record as $i => $value) {
                 if ($value instanceof Text) {
                     $value = $value->text;
@@ -74,50 +77,54 @@ class TablePrinter
             }
         }
 
-        $columns = [];
+        $job->columns = [];
 
         foreach ($table->headers as $i => $header) {
             $maxWidths[$i] = max($maxWidths[$i], mb_strlen($header));
-            $columns[] = new Column($header, $maxWidths[$i]);
+            $job->columns[] = new Column($header, $maxWidths[$i]);
         }
-
-        return $columns;
     }
 
-    private function printHeader(): void
+    private function printHeader(TablePrinter\Job $job): void
     {
         $elements = $this->initializeElements();
 
-        foreach ($this->columns as $i => $column) {
+        foreach ($job->columns as $i => $column) {
             if ($i > 0) {
-                $elements[] = new Text(str_repeat(' ', $this->columnSeparator), $this->lineColor);
+                $elements[] = new Text(
+                    str_repeat(' ', $this->columnSeparator),
+                    $job->settings->lineColor
+                );
             }
 
             $elements[] = new Text(
                 $this->padString($column->header, $column->maxWidth),
-                $this->headerColor
+                $job->settings->headerColor
             );
         }
 
-        $this->printer->printLine(...$elements);
+        $job->printer->printLine(...$elements);
     }
 
-    private function printHorizontalBorder(): void
+    private function printHorizontalBorder(TablePrinter\Job $job): void
     {
         $elements = $this->initializeElements();
 
-        foreach ($this->columns as $i => $column) {
+        foreach ($job->columns as $i => $column) {
             if ($i > 0) {
-                $elements[] = new Text(str_repeat('─', $this->columnSeparator), $this->lineColor);
+                $elements[] = new Text(
+                    str_repeat('─', $this->columnSeparator),
+                    $job->settings->lineColor
+                );
             }
 
-            $elements[] = new Text(str_repeat('─', $column->maxWidth), $this->lineColor);
+            $elements[] = new Text(str_repeat('─', $column->maxWidth), $job->settings->lineColor);
         }
 
-        $this->printer->printLine(...$elements);
+        $job->printer->printLine(...$elements);
     }
 
-    private function printRecord(mixed $record): void
+    private function printRecord(TablePrinter\Job $job, array $record): void
     {
         $elements = $this->initializeElements();
 
@@ -127,12 +134,15 @@ class TablePrinter
             }
 
             if ($i > 0) {
-                $elements[] = new Text(str_repeat(' ', $this->columnSeparator), $this->lineColor);
+                $elements[] = new Text(
+                    str_repeat(' ', $this->columnSeparator),
+                    $job->settings->lineColor
+                );
             }
 
             if ($value instanceof Text) {
                 $elements[] = new Text(
-                    $this->padString($value->text, $this->columns[$i]->maxWidth),
+                    $this->padString($value->text, $job->columns[$i]->maxWidth),
                     ...$value->format
                 );
             }
@@ -144,11 +154,11 @@ class TablePrinter
                     );
                 }
 
-                $elements[] = new Text($this->padString($value, $this->columns[$i]->maxWidth));
+                $elements[] = new Text($this->padString($value, $job->columns[$i]->maxWidth));
             }
         }
 
-        $this->printer->printLine(...$elements);
+        $job->printer->printLine(...$elements);
     }
 
     private function initializeElements(): array
@@ -156,9 +166,9 @@ class TablePrinter
         return [new Text(str_repeat(' ', $this->leftIndent))];
     }
 
-    private function padString(mixed $value, int $width): string
+    private function padString(string $value, int $width): string
     {
-        $padLength = $width - mb_strwidth((string) $value);
+        $padLength = $width - mb_strwidth($value);
 
         if ($padLength <= 0) {
             return $value;

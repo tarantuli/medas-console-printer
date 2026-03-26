@@ -45,13 +45,13 @@ readonly class ConsolePrinter implements Printer
         }
 
         if ($block instanceof Table) {
-            $this->tablePrinter->print($block);
+            $this->tablePrinter->print($block, $this);
 
             return;
         }
 
         if ($block instanceof Diff) {
-            $this->diffPrinter->print($block);
+            $this->diffPrinter->print($block, $this);
 
             return;
         }

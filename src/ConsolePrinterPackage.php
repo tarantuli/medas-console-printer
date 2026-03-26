@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
+use Medas\Console\ConsolePackage;
 use Medas\Core\{AsSingleton, BasePackage};
 
 class ConsolePrinterPackage extends BasePackage
@@ -12,7 +13,9 @@ class ConsolePrinterPackage extends BasePackage
 
     public function dependencies(): array
     {
-        return [];
+        return [
+            ConsolePackage::instance(),
+        ];
     }
 
     public function postInstall(): void
@@ -20,7 +23,7 @@ class ConsolePrinterPackage extends BasePackage
         $thisConsole = file_get_contents(__DIR__ . '/../bin/console');
         $projectConsole = file_get_contents(getcwd() . '/bin/console');
 
-        if ($thisConsole !== $projectConsole) {
+        if ($projectConsole && $thisConsole !== $projectConsole) {
             echo "The content at /bin/console is different from the one in this package.\n";
         }
     }

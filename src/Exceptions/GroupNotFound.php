@@ -9,19 +9,13 @@ use Medas\Core\Exceptions\BaseException;
 
 class GroupNotFound extends BaseException
 {
-    private bool $parentIsRoot;
-
     public function __construct(ConsoleCommandGroup|null $parent, string $name)
     {
-        $this->parentIsRoot = $parent === null;
-
-        parent::__construct($parent ? $parent->path() : '', $name);
+        parent::__construct($name, $parent ? $parent->path() : '[root]');
     }
 
     public function pattern(): string
     {
-        return $this->parentIsRoot
-            ? 'Cannot find root%s groups starting with %s'
-            : 'Cannot find groups starting with %2$s in group %1$s';
+        return 'Cannot find groups starting with %s in group %s';
     }
 }

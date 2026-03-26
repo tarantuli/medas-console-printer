@@ -64,7 +64,7 @@ readonly class ArgumentParser
                         throw new Exceptions\MultipleShortCodesWithValueGiven($name, $value);
                     }
 
-                    $letters = explode('', $name);
+                    $letters = str_split($name);
 
                     foreach ($letters as $letter) {
                         $options[$letter] = true;
