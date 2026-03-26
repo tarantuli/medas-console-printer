@@ -12,8 +12,8 @@ readonly class CommandProcessor
     private const string DEFAULT_COMMAND = 'console:command-list';
 
     public function __construct(
-        private ArgumentParser $argumentParser,
-        private Finder         $commandFinder,
+        private Commands\ArgumentParser $argumentParser,
+        private Finder                  $commandFinder,
     )
     {
     }
