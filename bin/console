@@ -10,4 +10,9 @@ if (str_ends_with($arguments[0], 'console')) {
     array_shift($arguments);
 }
 
-service(CommandProcessor::class)->process($arguments);
+try {
+    service(CommandProcessor::class)->process($arguments);
+}
+catch (\Throwable $exception) {
+    echo "\n× {$exception->getMessage()}\n\n";
+}

@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\{
-    CommandRepository as CommandRepositoryInterface,
-    Commands\ConsoleCommand,
-    Commands\ConsoleCommandGroup
-};
+use Medas\Console\{CommandRepository, Commands\ConsoleCommand, Commands\ConsoleCommandGroup};
 use Medas\Core\{Attributes\Service, Interfaces\PrimesCache};
 
 #[Service]
-class CommandRepository implements CommandRepositoryInterface, PrimesCache
+class Repository implements CommandRepository, PrimesCache
 {
     private array $groups;
     private array $processors;

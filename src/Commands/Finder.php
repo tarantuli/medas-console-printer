@@ -8,10 +8,10 @@ use Medas\Console\Commands\{ConsoleCommand, ConsoleCommandGroup};
 use Medas\Core\Attributes\Service;
 
 #[Service]
-readonly class CommandFinder
+readonly class Finder
 {
     public function __construct(
-        private CommandRepository $repository,
+        private Repository $repository,
     )
     {
     }
@@ -29,7 +29,7 @@ readonly class CommandFinder
         return $this->findProcessor($group, $processorName);
     }
 
-    private function findGroup(array $groupNames): mixed
+    private function findGroup(array $groupNames): ConsoleCommandGroup|null
     {
         $group = null;
 
@@ -40,7 +40,7 @@ readonly class CommandFinder
         return $group;
     }
 
-    private function findNextGroup(ConsoleCommandGroup|null $parent, string $name): mixed
+    private function findNextGroup(ConsoleCommandGroup|null $parent, string $name): ConsoleCommandGroup
     {
         $children = $this->repository->getGroups($parent);
         $candidateGroups = [];
