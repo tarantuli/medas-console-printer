@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Medas\ConsolePrinter;
+namespace Medas\ConsolePrinter\Commands;
 
 use Medas\Console\Commands\{ConsoleCommand, ConsoleCommandGroup};
+use Medas\ConsolePrinter\Exceptions;
 use Medas\Core\Attributes\Service;
 
 #[Service]

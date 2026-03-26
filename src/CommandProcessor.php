@@ -13,7 +13,7 @@ readonly class CommandProcessor
 
     public function __construct(
         private Commands\ArgumentParser $argumentParser,
-        private Finder                  $commandFinder,
+        private Commands\Finder         $commandFinder,
     )
     {
     }
