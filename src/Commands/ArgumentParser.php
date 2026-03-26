@@ -47,7 +47,7 @@ readonly class ArgumentParser
             if (str_starts_with($part, '--')) {
                 $option = substr($part, 2);
                 [$name, $value] = explode('=', $option, 2);
-                $options[$name] = $value ?? null;
+                $options[$name] = $value ?? true;
 
                 continue;
             }
@@ -64,11 +64,11 @@ readonly class ArgumentParser
                     $letters = explode('', $name);
 
                     foreach ($letters as $letter) {
-                        $options[$letter] = null;
+                        $options[$letter] = true;
                     }
                 }
                 else {
-                    $options[$name] = $value ?? null;
+                    $options[$name] = $value ?? true;
                 }
 
                 continue;
@@ -107,11 +107,11 @@ readonly class ArgumentParser
                 throw new Exceptions\UnknownOptionGiven($name);
             }
 
-            if ($option->valueRequired && $value === null) {
+            if ($option->valueRequired && $value === true) {
                 throw new Exceptions\RequiredOptionValueNotGiven($name);
             }
 
-            if (!$option->valueAllowed && $value !== null) {
+            if (!$option->valueAllowed && $value !== true) {
                 throw new Exceptions\DisallowedOptionValueGiven($name, $value);
             }
 
