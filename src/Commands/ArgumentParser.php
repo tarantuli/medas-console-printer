@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Commands;
 
-use Medas\Console\Commands\{Arguments, ConsoleCommand, Option};
+use Medas\Console\Commands\{CommandInput, ConsoleCommand, Option};
 use Medas\ConsolePrinter\Exceptions;
 use Medas\Core\Attributes\Service;
 
 #[Service]
 readonly class ArgumentParser
 {
-    public function parse(ConsoleCommand $command, array $parts): Arguments
+    public function parse(ConsoleCommand $command, array $parts): CommandInput
     {
         // The first argument is always the command name, ignore it.
         array_shift($parts);
@@ -19,9 +19,10 @@ readonly class ArgumentParser
         [$arguments, $options] = $this->processParts($parts);
 
         $this->checkArgumentCount($command, $arguments);
-        $this->checkOptions($command, $options);
 
-        return new Arguments($arguments, $options);
+        $options = $this->normalizeOptions($command, $options);
+
+        return new CommandInput($arguments, $options);
     }
 
     private function processParts(array $parts): array
@@ -79,7 +80,7 @@ readonly class ArgumentParser
         return [$arguments, $options];
     }
 
-    private function checkArgumentCount(ConsoleCommand $command, Arguments $arguments): void
+    private function checkArgumentCount(ConsoleCommand $command, CommandInput $arguments): void
     {
         $count = count($arguments->arguments);
 
@@ -92,8 +93,10 @@ readonly class ArgumentParser
         }
     }
 
-    private function checkOptions(ConsoleCommand $command, array $options): void
+    private function normalizeOptions(ConsoleCommand $command, array $options): array
     {
+        $normalizedOptions = [];
+
         foreach ($options as $name => $value) {
             $option = array_find(
                 $command->options(),
@@ -107,6 +110,15 @@ readonly class ArgumentParser
             if ($option->valueRequired && $value === null) {
                 throw new Exceptions\RequiredOptionValueNotGiven($name);
             }
+
+            if (!$option->valueAllowed && $value !== null) {
+                throw new Exceptions\DisallowedOptionValueGiven($name, $value);
+            }
+
+            // Always use the long code name for the option.
+            $normalizedOptions[$option->longCode] = $value;
         }
+
+        return $normalizedOptions;
     }
 }
