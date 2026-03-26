@@ -83,13 +83,14 @@ readonly class ArgumentParser
     private function checkArgumentCount(ConsoleCommand $command, CommandInput $arguments): void
     {
         $count = count($arguments->arguments);
+        $allowedArgumentCount = $command->allowedArgumentCount();
 
-        if ($count < $command->minArgumentCount()) {
-            throw new Exceptions\TooFewArgumentsGiven($count, $command->minArgumentCount());
+        if ($count < $allowedArgumentCount->min) {
+            throw new Exceptions\TooFewArgumentsGiven($count, $allowedArgumentCount->min);
         }
 
-        if ($count > $command->maxArgumentCount()) {
-            throw new Exceptions\TooManyArgumentsGiven($count, $command->maxArgumentCount());
+        if ($allowedArgumentCount->max !== false && $count > $allowedArgumentCount->max) {
+            throw new Exceptions\TooManyArgumentsGiven($count, $allowedArgumentCount->max);
         }
     }
 
