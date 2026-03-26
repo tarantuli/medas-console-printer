@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "morphp/medas-console",
-            "version": "v3.0.11",
+            "version": "v3.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tarantuli/medas-console.git",
-                "reference": "6197e61bd9befa9a1645de627802f97207474c6e"
+                "reference": "1b37db03725816b21e9c74d3cf716fc53bf3f6c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/6197e61bd9befa9a1645de627802f97207474c6e",
-                "reference": "6197e61bd9befa9a1645de627802f97207474c6e",
+                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/1b37db03725816b21e9c74d3cf716fc53bf3f6c7",
+                "reference": "1b37db03725816b21e9c74d3cf716fc53bf3f6c7",
                 "shasum": ""
             },
             "require": {
@@ -50,10 +50,10 @@
                 "console"
             ],
             "support": {
-                "source": "https://github.com/tarantuli/medas-console/tree/v3.0.11",
+                "source": "https://github.com/tarantuli/medas-console/tree/v3.0.12",
                 "issues": "https://github.com/tarantuli/medas-console/issues"
             },
-            "time": "2026-03-26T15:19:32+00:00"
+            "time": "2026-03-26T15:22:26+00:00"
         },
         {
             "name": "morphp/medas-core",

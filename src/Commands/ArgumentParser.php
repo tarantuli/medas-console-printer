@@ -25,6 +25,9 @@ readonly class ArgumentParser
         return new CommandInput($arguments, $options);
     }
 
+    /**
+     * @return array{0: string[], 1: array<string, string|bool>}
+     */
     private function processParts(array $parts): array
     {
         $afterDoubleDash = false;
@@ -80,9 +83,9 @@ readonly class ArgumentParser
         return [$arguments, $options];
     }
 
-    private function checkArgumentCount(ConsoleCommand $command, CommandInput $arguments): void
+    private function checkArgumentCount(ConsoleCommand $command, array $arguments): void
     {
-        $count = count($arguments->arguments);
+        $count = count($arguments);
         $allowedArgumentCount = $command->allowedArgumentCount();
 
         if ($count < $allowedArgumentCount->min) {
