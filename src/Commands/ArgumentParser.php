@@ -49,8 +49,16 @@ readonly class ArgumentParser
 
             if (str_starts_with($part, '--')) {
                 $option = substr($part, 2);
-                [$name, $value] = explode('=', $option, 2);
-                $options[$name] = $value ?? true;
+
+                if (str_contains($option, '=')) {
+                    [$name, $value] = explode('=', $option, 2);
+                }
+                else {
+                    $name = $option;
+                    $value = true;
+                }
+
+                $options[$name] = $value;
 
                 continue;
             }
