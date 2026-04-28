@@ -24,7 +24,7 @@ class ConsolePrinterPackage extends BasePackage
         $projectConsole = file_get_contents(getcwd() . '/bin/console');
 
         if ($projectConsole && $thisConsole !== $projectConsole) {
-            echo "The content at /bin/console is different from the one in this package.\n";
+            printf("The content at /bin/console is different from the one in %s.\n", getcwd());
         }
     }
 
