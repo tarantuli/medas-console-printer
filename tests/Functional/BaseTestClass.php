@@ -12,12 +12,15 @@ abstract class BaseTestClass extends TestCase
 {
     public function execute(string $command): array
     {
-        $command .= ' --addPackage=' . escapeshellarg(MockUpPackage::class);
         $pathToPhp = service(ConfigManager::class)->getValue('console.path-to-php');
         $pathToConsole = realpath(__DIR__ . '/../../bin/console');
-
         $string = '"' . $pathToPhp . '" ' . $pathToConsole . ' ' . $command;
+
+        putenv('MEDAS_TEST_PACKAGES=' . MockUpPackage::class);
+
         exec($string, $output);
+
+        putenv('MEDAS_TEST_PACKAGES=');
 
         return $output;
     }
