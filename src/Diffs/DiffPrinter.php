@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Diffs;
 
-use Medas\Console\{Diff, Formats\Color, Text};
+use Medas\Console\{Diff, Formats\SafeColor, Text};
 use Medas\ConsolePrinter\ConsolePrinter;
 use Medas\Core\Attributes\Service;
 
@@ -20,11 +20,11 @@ readonly class DiffPrinter
 
             $type = substr($line, 0, 1);
             $color = match ($type) {
-                '+' => Color::Green,
-                '-' => Color::Red,
-                '@' => Color::Blue,
-                '', ' ' => Color::Gray,
-                default => Color::White,
+                '+' => SafeColor::Green,
+                '-' => SafeColor::Red,
+                '@' => SafeColor::Blue,
+                '', ' ' => SafeColor::Gray,
+                default => SafeColor::White,
             };
 
             $printer->printLine(Text::create($line, $color));

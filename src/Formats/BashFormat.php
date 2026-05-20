@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Formats;
 
-use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, Style};
+use Medas\Console\Formats\{BgColor, Color, Format, HexBgColor, HexColor, SafeColor, Style};
 use Medas\ConsolePrinter\Exceptions\UnknownFormat;
 use Medas\Core\Attributes\Service;
 
@@ -326,6 +326,10 @@ class BashFormat
             $prefix = ($format instanceof HexBgColor) ? self::COLOR256_BG : self::COLOR256;
 
             return $prefix . self::XTERM256_CODES[$format->color()];
+        }
+
+        if ($format instanceof SafeColor) {
+            return self::COLOR256 . self::XTERM256_CODES[$format->value];
         }
 
         return match ($format) {

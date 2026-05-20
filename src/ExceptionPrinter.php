@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Console\{Formats\Color, Printer, Text};
+use Medas\Console\{Formats\SafeColor, Printer, Text};
 use Medas\Core\{Attributes\Service, Exceptions\Suggestions, StringMaker};
 
 #[Service]
@@ -36,18 +36,18 @@ readonly class ExceptionPrinter
     {
         foreach (array_reverse($exception->getTrace()) as $trace) {
             if (isset($trace['file'])) {
-                $printer->printLine(new Text($trace['file'] . ':' . $trace['line'], Color::LightGray));
+                $printer->printLine(new Text($trace['file'] . ':' . $trace['line'], SafeColor::LightGray));
             }
 
             $printer->printLine(new Text(' ' . (
                 isset($trace['class'])
                 ? $trace['class'] . $trace['type']
                 : ''
-            ) . $trace['function'] . '()', Color::LightYellow));
+            ) . $trace['function'] . '()', SafeColor::LightYellow));
 
             foreach ($trace['args'] ?? [] as $i => $argument) {
                 $printer->printLine(
-                    new Text('   ' . $i, Color::Cyan),
+                    new Text('   ' . $i, SafeColor::Cyan),
                     new Text('  ' . StringMaker::instance()->fromVariable($argument, StringMaker\Settings::forDisplay())),
                 );
             }
@@ -59,9 +59,9 @@ readonly class ExceptionPrinter
     private function printExceptionInformation(\Throwable $exception, Printer $printer): void
     {
         $printer
-            ->printLine(new Text($exception->getFile() . ':' . $exception->getLine(), Color::LightGray))
-            ->printLine(new Text(' Exception: ' . $exception::class, Color::LightYellow))
-            ->printLine(new Text('   >', Color::Cyan), new Text('  ' . $exception->getMessage()))
+            ->printLine(new Text($exception->getFile() . ':' . $exception->getLine(), SafeColor::LightGray))
+            ->printLine(new Text(' Exception: ' . $exception::class, SafeColor::LightYellow))
+            ->printLine(new Text('   >', SafeColor::Cyan), new Text('  ' . $exception->getMessage()))
             ->printLine();
     }
 
@@ -71,7 +71,7 @@ readonly class ExceptionPrinter
             return;
         }
 
-        $printer->printLine(new Text(' Suggestions:', Color::LightYellow));
+        $printer->printLine(new Text(' Suggestions:', SafeColor::LightYellow));
 
         foreach ($exception->suggestions() as $key => $value) {
             if (is_string($key)) {
@@ -86,7 +86,7 @@ readonly class ExceptionPrinter
             $prefix = '   ' . str_repeat('   ', $indentation) . '>  ';
 
             $printer
-                ->printLine(new Text($prefix, Color::Cyan), new Text($suggestion));
+                ->printLine(new Text($prefix, SafeColor::Cyan), new Text($suggestion));
         }
 
         $printer->printLine();

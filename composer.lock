@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b2d87f705fb3006834263804639560f",
+    "content-hash": "004d681eb0d863bc70c0b7ea2a34dbd2",
     "packages": [
         {
             "name": "morphp/medas-console",
-            "version": "v3.1.2",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tarantuli/medas-console.git",
-                "reference": "c485c22d9d1c2dcb96faa874407ad0c230410f9b"
+                "reference": "2428bafee1e83cabb6e2c5f6bdc47d666260191b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/c485c22d9d1c2dcb96faa874407ad0c230410f9b",
-                "reference": "c485c22d9d1c2dcb96faa874407ad0c230410f9b",
+                "url": "https://api.github.com/repos/tarantuli/medas-console/zipball/2428bafee1e83cabb6e2c5f6bdc47d666260191b",
+                "reference": "2428bafee1e83cabb6e2c5f6bdc47d666260191b",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,6 @@
                 "php": "^8.4"
             },
             "require-dev": {
-                "morphp/medas-service-manager": "^3",
                 "phpunit/phpunit": "^10"
             },
             "type": "library",
@@ -50,10 +49,10 @@
                 "console"
             ],
             "support": {
-                "source": "https://github.com/tarantuli/medas-console/tree/v3.1.2",
+                "source": "https://github.com/tarantuli/medas-console/tree/v3.2.1",
                 "issues": "https://github.com/tarantuli/medas-console/issues"
             },
-            "time": "2026-05-19T15:03:33+00:00"
+            "time": "2026-05-20T13:17:38+00:00"
         },
         {
             "name": "morphp/medas-core",
