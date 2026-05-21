@@ -24,7 +24,7 @@ readonly class TreePrinter
     }
 
     private function printLevel(
-        iterable       $nodes,
+        mixed          $node,
         \Closure       $label,
         \Closure       $children,
         ConsolePrinter $printer,
@@ -48,12 +48,12 @@ readonly class TreePrinter
             }
         }
 
-        $printer->printText($label($nodes));
+        $printer->printText($label($node));
         $printer->printEol();
 
-        $childCount = count($children($nodes));
+        $childCount = count($children($node));
 
-        foreach ($children($nodes) as $i => $child) {
+        foreach ($children($node) as $i => $child) {
             $this->printLevel(
                 $child,
                 $label,
