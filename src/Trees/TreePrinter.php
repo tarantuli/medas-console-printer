@@ -20,7 +20,7 @@ readonly class TreePrinter
 
     public function print(Tree $tree, ConsolePrinter $printer): void
     {
-        $this->printLevel($tree->nodes, $tree->label, $tree->children, $printer);
+        $this->printLevel($tree->rootNode, $tree->label, $tree->children, $printer);
     }
 
     private function printLevel(
