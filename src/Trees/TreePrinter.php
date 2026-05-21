@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Trees;
 
-use Medas\Console\{Formats\Format, Formats\SafeColor, Tree};
+use Medas\Console\{Formats\Format, Formats\SafeColor, Printable, Tree};
 use Medas\ConsolePrinter\ConsolePrinter;
 use Medas\Core\Attributes\Service;
 
@@ -48,7 +48,12 @@ readonly class TreePrinter
             }
         }
 
-        $printer->printText($label($node));
+        $labelValue = $label($node);
+
+        $labelValue instanceof Printable
+            ? $printer->print($labelValue)
+            : $printer->printText($labelValue);
+
         $printer->printEol();
 
         $childCount = count($children($node));
