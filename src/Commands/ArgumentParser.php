@@ -11,6 +11,16 @@ use Medas\Core\Attributes\Service;
 #[Service]
 readonly class ArgumentParser
 {
+    private array $sharedOptions;
+
+    public function __construct()
+    {
+        $this->sharedOptions = [
+            Option::noValue('help', '?'),
+            Option::noValue('debug'),
+        ];
+    }
+
     public function parse(ConsoleCommand $command, array $parts): CommandInput
     {
         // The first argument is always the command name, ignore it.
@@ -108,10 +118,11 @@ readonly class ArgumentParser
     private function normalizeOptions(ConsoleCommand $command, array $options): array
     {
         $normalizedOptions = [];
+        $availableOptions = array_merge($this->sharedOptions + $command->options());
 
         foreach ($options as $name => $value) {
             $option = array_find(
-                $command->options(),
+                $availableOptions,
                 fn(Option $option) => $option->longCode === $name || $option->shortCode === $name
             );
 

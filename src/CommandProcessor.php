@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
-use Medas\Core\{Attributes\Service, Interfaces\Package, Interfaces\ServiceManager};
+use Medas\Core\{
+    Attributes\Service,
+    Events\DebugInformationGatherer,
+    Interfaces\Package,
+    Interfaces\ServiceManager
+};
 
 #[Service]
 readonly class CommandProcessor
@@ -12,9 +17,10 @@ readonly class CommandProcessor
     private const string DEFAULT_COMMAND = 'console:command-list';
 
     public function __construct(
-        private Commands\ArgumentParser $argumentParser,
-        private Commands\Finder         $commandFinder,
-        private ServiceManager          $serviceManager,
+        private Commands\ArgumentParser  $argumentParser,
+        private Commands\Finder          $commandFinder,
+        private DebugInformationGatherer $debugInformationGatherer,
+        private ServiceManager           $serviceManager,
     )
     {
     }
@@ -27,6 +33,14 @@ readonly class CommandProcessor
         $arguments = $this->argumentParser->parse($command, $givenArguments);
 
         $command->process($arguments);
+
+        if ($arguments->getOption('debug')) {
+            echo "\n\n[Debug information]\n";
+
+            foreach ($this->debugInformationGatherer->events as $event) {
+                echo $event, "\n";
+            }
+        }
     }
 
     private function addTestPackages(): void
