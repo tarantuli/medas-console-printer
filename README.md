@@ -180,18 +180,18 @@ php medas config-o:l
 **Running a command:**
 
 ```bash
-php bin/console <group>:<command> [arguments] [options]
+php bin/medas <group>:<command> [arguments] [options]
 
 # Examples
-php bin/console console:command-list
-php bin/console reports:generate 2026-05 --format=csv --verbose
+php bin/medas console:command-list
+php bin/medas reports:generate 2026-05 --format=csv --verbose
 ```
 
 **Prefix matching** — you only need to type enough characters to be unambiguous:
 
 ```bash
 # If 'reports' is the only group starting with 're', and 'generate' the only command starting with 'g':
-php bin/console re:g 2026-05
+php bin/medas re:g 2026-05
 ```
 
 If the prefix is ambiguous (matches more than one group or command) the runner throws an error listing the candidates.
@@ -200,5 +200,5 @@ If the prefix is ambiguous (matches more than one group or command) the runner t
 
 ```bash
 # Everything after -- is treated as a positional argument, not an option
-php bin/console search:run -- --literal-hyphen-value
+php bin/medas search:run -- --literal-hyphen-value
 ```
