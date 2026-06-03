@@ -20,12 +20,7 @@ class ConsolePrinterPackage extends BasePackage
 
     public function postInstall(): void
     {
-        $thisConsole = file_get_contents(__DIR__ . '/../bin/console');
-        $projectConsole = file_get_contents(getcwd() . '/bin/console');
-
-        if ($projectConsole && $thisConsole !== $projectConsole) {
-            printf("The content at /bin/console is different from the one in %s.\n", getcwd());
-        }
+        new BinFileChecker()->check();
     }
 
     public function sourceDirectory(): string
