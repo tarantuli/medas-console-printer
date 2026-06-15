@@ -8,9 +8,9 @@ readonly class BinFileChecker
 {
     public function check(): void
     {
-        $workingDirectory   = getcwd();
+        $workingDirectory = getcwd();
         $projectConsolePath = $workingDirectory . '/bin/console';
-        $projectMedasPath   = $workingDirectory . '/bin/medas';
+        $projectMedasPath = $workingDirectory . '/bin/medas';
 
         if (is_file($projectConsolePath)) {
             printf(

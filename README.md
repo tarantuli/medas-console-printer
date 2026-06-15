@@ -169,10 +169,10 @@ service(\Medas\ConsolePrinter\CommandProcessor::class)->process($argv);
 
 ```bash
 # Full name
-php medas config-options:list
+php bin/medas config-options:list
 
 # Unambiguous prefix — works as long as no other group starts with 'config-o'
-php medas config-o:l
+php bin/medas config-o:l
 ```
 
 ### Backend user context
