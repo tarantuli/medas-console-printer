@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter;
 
+use Medas\Console\{Formats\SafeColor, Text};
 use Medas\Core\{Attributes\Service, Events\DebugInformationGatherer};
 
 #[Service]
@@ -14,6 +15,7 @@ readonly class CommandProcessor
     public function __construct(
         private Commands\ArgumentParser  $argumentParser,
         private Commands\Finder          $commandFinder,
+        private ConsolePrinter           $printer,
         private DebugInformationGatherer $debugInformationGatherer,
     )
     {
@@ -21,7 +23,16 @@ readonly class CommandProcessor
 
     public function process(array $givenArguments): void
     {
-        $command = $this->commandFinder->find($givenArguments[0] ?? self::DEFAULT_COMMAND);
+        try {
+            $argument = $givenArguments[0] ?? self::DEFAULT_COMMAND;
+            $command = $this->commandFinder->find($argument);
+        }
+        catch (\Throwable) {
+            $this->printer->print(Text::create("Found nothing that can execute command \"$argument\"", SafeColor::Red));
+
+            return;
+        }
+
         $arguments = $this->argumentParser->parse($command, $givenArguments);
 
         $command->process($arguments);
