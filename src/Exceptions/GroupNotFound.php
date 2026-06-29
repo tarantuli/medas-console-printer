@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter\Exceptions;
 
 use Medas\Console\Commands\ConsoleCommandGroup;
-use Medas\Core\Exceptions\BaseException;
 
-class GroupNotFound extends BaseException
+class GroupNotFound extends FinderException
 {
     public function __construct(ConsoleCommandGroup|null $parent, string $name)
     {

@@ -27,8 +27,9 @@ readonly class CommandProcessor
             $argument = $givenArguments[0] ?? self::DEFAULT_COMMAND;
             $command = $this->commandFinder->find($argument);
         }
-        catch (\Throwable) {
-            $this->printer->print(Text::create("Found nothing that can execute command \"$argument\"", SafeColor::Red));
+        catch (Exceptions\FinderException $exception) {
+            $this->printer->print(Text::create("Could not execute command \"$argument\":", SafeColor::Red));
+            $this->printer->print(Text::create('   ' . $exception->getMessage(), SafeColor::Red));
 
             return;
         }

@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Medas\ConsolePrinter\Exceptions;
 
 use Medas\Console\Commands\ConsoleCommandGroup;
-use Medas\Core\Exceptions\BaseException;
 
-class CommandNotFound extends BaseException
+class CommandNotFound extends FinderException
 {
     public function __construct(string $name, ConsoleCommandGroup $parent)
     {

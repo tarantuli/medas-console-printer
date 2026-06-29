@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Exceptions;
 
-use Medas\Core\Exceptions\BaseException;
-
-class NoGroupNotFound extends BaseException
+class NoGroupNotFound extends FinderException
 {
     public function __construct(array $groupNames)
     {
