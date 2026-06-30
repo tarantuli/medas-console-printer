@@ -118,7 +118,7 @@ readonly class ArgumentParser
     private function normalizeOptions(ConsoleCommand $command, array $options): array
     {
         $normalizedOptions = [];
-        $availableOptions = array_merge($this->sharedOptions + $command->options());
+        $availableOptions = array_merge($this->sharedOptions, $command->options());
 
         foreach ($options as $name => $value) {
             $option = array_find(
