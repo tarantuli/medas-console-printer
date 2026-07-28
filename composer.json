@@ -12,9 +12,10 @@
   ],
   "type": "library",
   "require": {
-    "morphp/medas-console": "^3.2",
+    "morphp/medas-console": "^4",
     "morphp/medas-core": "^4",
-    "php": "^8.4"
+    "php": "^8.4",
+    "ext-mbstring": "*"
   },
   "require-dev": {
     "morphp/medas-config-manager": "^3",

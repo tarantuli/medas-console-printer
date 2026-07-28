@@ -16,17 +16,17 @@ readonly class InputValidators
 
     public function string(int $minLength = 1, int|null $maxLength = null): \Closure
     {
-        return fn(string $input) => mb_strlen($input) >= $minLength && (
-            $maxLength === null
-            || mb_strlen($input) <= $maxLength
-        );
+        return fn(string $input)
+            => mb_strlen($input) >= $minLength
+                && ($maxLength === null || mb_strlen($input) <= $maxLength);
     }
 
     public function integer(int $minValue = 0, int|null $maxValue = null): \Closure
     {
-        return fn(string $input) => preg_match('/^-?\d+$/', $input)
-            && (int) $input >= $minValue
-            && ($maxValue === null || (int) $input <= $maxValue);
+        return fn(string $input)
+            => preg_match('/^-?\d+$/', $input)
+                && (int) $input >= $minValue
+                && ($maxValue === null || (int) $input <= $maxValue);
     }
 
     public function boolean(): \Closure

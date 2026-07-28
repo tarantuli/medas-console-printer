@@ -6,7 +6,7 @@ namespace Medas\ConsolePrinter\Commands;
 
 use Medas\Console\{CommandRepository, Commands\ConsoleCommand, Commands\ConsoleCommandGroup};
 use Medas\ConsolePrinter\Exceptions;
-use Medas\Core\{Attributes\Service, Interfaces\PrimesCache};
+use Medas\Core\{Attributes\Service, Interfaces\ImplementorFinder, Interfaces\PrimesCache};
 
 #[Service]
 class Repository implements CommandRepository, PrimesCache
@@ -14,6 +14,12 @@ class Repository implements CommandRepository, PrimesCache
     private array $groups;
     private array $processors;
     private array $aliases;
+
+    public function __construct(
+        private readonly ImplementorFinder $implementorFinder,
+    )
+    {
+    }
 
     public function findAlias(string $command): ConsoleCommand|null
     {
@@ -77,7 +83,7 @@ class Repository implements CommandRepository, PrimesCache
         if (!isset($this->groups)) {
             $groupNames = cache(
                 [$this::class, 'getAllGroupNames'],
-                fn() => $this->findAllGroupNames()
+                fn() => $this->implementorFinder->find(ConsoleCommandGroup::class)
             );
 
             $this->groups = [];
@@ -88,24 +94,6 @@ class Repository implements CommandRepository, PrimesCache
         }
 
         return $this->groups;
-    }
-
-    /** @return string[] */
-    private function findAllGroupNames(): array
-    {
-        $groupNames = [];
-
-        foreach (sm()->getServiceClassNames() as $className) {
-            $class = new \ReflectionClass($className);
-
-            if (!$class->implementsInterface(ConsoleCommandGroup::class)) {
-                continue;
-            }
-
-            $groupNames[] = $className;
-        }
-
-        return $groupNames;
     }
 
     /** @return ConsoleCommand[] */
@@ -128,7 +116,7 @@ class Repository implements CommandRepository, PrimesCache
         if (!isset($this->processors)) {
             $processorNames = cache(
                 [$this::class, 'getAllProcessorNames'],
-                fn() => $this->findAllProcessorNames()
+                fn() => $this->implementorFinder->find(ConsoleCommand::class)
             );
 
             $this->processors = [];
@@ -139,36 +127,13 @@ class Repository implements CommandRepository, PrimesCache
 
             usort(
                 $this->processors,
-                fn(ConsoleCommand $a, ConsoleCommand $b) => strcasecmp(
-                    $a->fullCommand(),
-                    $b->fullCommand()
+                fn(ConsoleCommand $a, ConsoleCommand $b)
+                    => strcasecmp($a->fullCommand(), $b->fullCommand()
                 )
             );
         }
 
         return $this->processors;
-    }
-
-    /** @return string[] */
-    private function findAllProcessorNames(): array
-    {
-        $processorNames = [];
-
-        foreach (sm()->getServiceClassNames() as $className) {
-            $class = new \ReflectionClass($className);
-
-            if ($class->isAbstract()) {
-                continue;
-            }
-
-            if (!$class->implementsInterface(ConsoleCommand::class)) {
-                continue;
-            }
-
-            $processorNames[] = $className;
-        }
-
-        return $processorNames;
     }
 
     public function primeCache(): void
