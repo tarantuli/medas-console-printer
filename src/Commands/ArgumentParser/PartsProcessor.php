@@ -50,7 +50,14 @@ readonly class PartsProcessor
 
             if (str_starts_with($part, '-')) {
                 $option = substr($part, 1);
-                [$name, $value] = explode('=', $option, 2);
+
+                if (str_contains($option, '=')) {
+                    [$name, $value] = explode('=', $option, 2);
+                }
+                else {
+                    $name = $option;
+                    $value = true;
+                }
 
                 if (strlen($name) > 1) {
                     if ($value !== null) {
