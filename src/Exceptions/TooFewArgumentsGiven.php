@@ -8,13 +8,14 @@ use Medas\Core\Exceptions\BaseException;
 
 class TooFewArgumentsGiven extends BaseException
 {
-    public function __construct(int $argumentCount, int $minArgumentCount)
+    /** @param string[] $missingArguments */
+    public function __construct(int $argumentCount, int $minArgumentCount, array $missingArguments)
     {
-        parent::__construct($argumentCount, $minArgumentCount);
+        parent::__construct($argumentCount, $minArgumentCount, implode(', ', $missingArguments));
     }
 
     public function pattern(): string
     {
-        return 'Too few arguments given: %s, expected at least %s';
+        return 'Too few arguments given: %s, expected at least %s (missing: %s)';
     }
 }

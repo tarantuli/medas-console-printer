@@ -31,7 +31,7 @@ readonly class ArgumentsResolver
         $index = 0;
         $count = count($values);
 
-        foreach ($definitions as $definition) {
+        foreach ($definitions as $definitionIndex => $definition) {
             if ($definition->isVariadic) {
                 $remaining = array_slice($values, $index);
                 $index = $count;
@@ -39,7 +39,8 @@ readonly class ArgumentsResolver
                 if ($definition->required && $remaining === []) {
                     throw new TooFewArgumentsGiven(
                         $count,
-                        $this->minimumArgumentCount($definitions)
+                        $this->minimumArgumentCount($definitions),
+                        $this->missingRequiredArguments($definitions, $definitionIndex)
                     );
                 }
 
@@ -65,7 +66,11 @@ readonly class ArgumentsResolver
             }
 
             if ($definition->required) {
-                throw new TooFewArgumentsGiven($count, $this->minimumArgumentCount($definitions));
+                throw new TooFewArgumentsGiven(
+                    $count,
+                    $this->minimumArgumentCount($definitions),
+                    $this->missingRequiredArguments($definitions, $definitionIndex)
+                );
             }
 
             $resolved[$definition->name] = $definition->default;
@@ -74,7 +79,11 @@ readonly class ArgumentsResolver
         // Any positional values left over means more were given than declared. This can't happen when the
         // last Argument is variadic, since that branch always consumes everything remaining.
         if ($index < $count) {
-            throw new TooManyArgumentsGiven($count, count($definitions));
+            throw new TooManyArgumentsGiven(
+                $count,
+                count($definitions),
+                array_slice($values, $index)
+            );
         }
 
         return $resolved;
@@ -99,5 +108,25 @@ readonly class ArgumentsResolver
         }
 
         return $min;
+    }
+
+    /**
+     * The names of the required Arguments from $fromIndex onward - the ones still awaiting a value at the
+     * point too few were given. Values are exhausted by then, so every required Argument from here is missing.
+     *
+     * @param Argument[] $definitions
+     * @return string[]
+     */
+    private function missingRequiredArguments(array $definitions, int $fromIndex): array
+    {
+        $missing = [];
+
+        foreach (array_slice($definitions, $fromIndex) as $definition) {
+            if ($definition->required) {
+                $missing[] = $definition->name;
+            }
+        }
+
+        return $missing;
     }
 }
