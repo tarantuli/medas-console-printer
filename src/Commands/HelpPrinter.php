@@ -21,29 +21,29 @@ readonly class HelpPrinter
     {
         $this->printer
             ->printEol()
-            ->printText($command->description(), SafeColor::DarkYellow)
+            ->printText($command->description())
             ->printEol()->printEol();
 
         if ($command->arguments()) {
             $this->printer
-                ->printText('Arguments:', SafeColor::Green)
+                ->printText('Arguments', SafeColor::Green)
                 ->printEol();
 
             foreach ($command->arguments() as $argument) {
                 $declaration = $argument->required ? $argument->name : '[' . $argument->name . ']';
 
                 $this->printer
-                    ->printText('   ' . str_pad($declaration, 16), SafeColor::Yellow)
-                    ->printText('   ' . $argument->description, SafeColor::Green)
+                    ->printText('   ' . str_pad($declaration, 16), SafeColor::LightYellow)
+                    ->printText('   ' . $argument->description)
                     ->printEol();
             }
 
-            $this->printer->printEol()->printEol();
+            $this->printer->printEol();
         }
 
         if ($command->options()) {
             $this->printer
-                ->printText('Options:', SafeColor::Green)
+                ->printText('Options', SafeColor::Green)
                 ->printEol();
 
             foreach ($command->options() as $option) {
@@ -62,11 +62,12 @@ readonly class HelpPrinter
                 }
 
                 $this->printer
-                    ->printText('   ' . str_pad($code, 16), SafeColor::Yellow)
-                    ->printText('   ' . $option->description, SafeColor::Green);
+                    ->printText('   ' . str_pad($code, 16), SafeColor::LightYellow)
+                    ->printText('   ' . $option->description)
+                    ->printEol();
             }
 
-            $this->printer->printEol()->printEol();
+            $this->printer->printEol();
         }
     }
 }
