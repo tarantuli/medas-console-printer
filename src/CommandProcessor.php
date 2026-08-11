@@ -15,6 +15,7 @@ readonly class CommandProcessor
     public function __construct(
         private Commands\ArgumentParser  $argumentParser,
         private Commands\Finder          $commandFinder,
+        private Commands\HelpPrinter     $helpPrinter,
         private ConsolePrinter           $printer,
         private DebugInformationGatherer $debugInformationGatherer,
     )
@@ -34,11 +35,17 @@ readonly class CommandProcessor
             return;
         }
 
-        $arguments = $this->argumentParser->parse($command, $givenArguments);
+        $commandInput = $this->argumentParser->parse($command, $givenArguments);
 
-        $command->process($arguments);
+        if ($commandInput->getOption('help')) {
+            $this->helpPrinter->print($command, $commandInput);
 
-        if ($arguments->getOption('debug')) {
+            return;
+        }
+
+        $command->process($commandInput);
+
+        if ($commandInput->getOption('debug')) {
             echo "\n\n[Debug information]\n";
 
             foreach ($this->debugInformationGatherer->events as $event) {
