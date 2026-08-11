@@ -35,13 +35,15 @@ readonly class CommandProcessor
             return;
         }
 
-        $commandInput = $this->argumentParser->parse($command, $givenArguments);
+        $parsed = $this->argumentParser->parse($command, $givenArguments);
 
-        if ($commandInput->getOption('help')) {
-            $this->helpPrinter->print($command, $commandInput);
+        if ($parsed->getOption('help')) {
+            $this->helpPrinter->print($command);
 
             return;
         }
+
+        $commandInput = $this->argumentParser->validate($command, $parsed);
 
         $command->process($commandInput);
 

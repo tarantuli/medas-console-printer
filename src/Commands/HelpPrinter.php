@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Commands;
 
-use Medas\Console\{Commands\CommandInput, Commands\ConsoleCommand, Formats\SafeColor};
+use Medas\Console\{Commands\ConsoleCommand, Formats\SafeColor};
 use Medas\ConsolePrinter\ConsolePrinter;
 use Medas\Core\Attributes\Service;
 
@@ -17,7 +17,7 @@ readonly class HelpPrinter
     {
     }
 
-    public function print(ConsoleCommand $command, CommandInput $input): void
+    public function print(ConsoleCommand $command): void
     {
         $this->printer
             ->printEol()

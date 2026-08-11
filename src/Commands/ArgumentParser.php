@@ -18,15 +18,21 @@ readonly class ArgumentParser
     {
     }
 
-    public function parse(ConsoleCommand $command, array $parts): CommandInput
+    public function parse(ConsoleCommand $command, array $parts): ArgumentParser\ParsedInput
     {
         // The first argument is always the command name, ignore it.
         array_shift($parts);
 
         [$values, $options] = $this->partsProcessor->process($parts);
-        $arguments = $this->argumentsResolver->resolve($command, $values);
         $options = $this->optionsNormalizer->normalize($command, $options);
 
-        return new CommandInput($arguments, $options);
+        return new ArgumentParser\ParsedInput($values, $options);
+    }
+
+    public function validate(ConsoleCommand $command, ArgumentParser\ParsedInput $parsed): CommandInput
+    {
+        $arguments = $this->argumentsResolver->resolve($command, $parsed->values);
+
+        return new CommandInput($arguments, $parsed->options);
     }
 }
