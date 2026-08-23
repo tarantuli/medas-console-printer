@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Tables;
 
-use Medas\Console\{Table, Text};
+use Medas\Console\{Align, ColumnDef, Formats\Format, Style, Table, Text};
 use Medas\ConsolePrinter\{
     ConfigOptions\NullGlyph,
     ConfigOptions\TableColumnSeparator,
@@ -49,7 +49,7 @@ readonly class TablePrinter
     private function determineColumns(TablePrinter\Job $job, Table $table): void
     {
         $headerCount = count($table->headers);
-        $maxWidths = array_fill(0, $headerCount, 0);
+        $contentWidths = array_fill(0, $headerCount, 0);
 
         foreach ($table->data as $recordIndex => $record) {
             $record = array_values($record);
@@ -63,25 +63,30 @@ readonly class TablePrinter
             }
 
             foreach ($record as $i => $value) {
-                if ($value instanceof Text) {
-                    $value = $value->text;
-                }
-                elseif (!is_string($value)) {
-                    $value = StringMaker::instance()->fromVariable(
-                        $value,
-                        StringMaker\Settings::forDisplay()
-                    );
-                }
-
-                $maxWidths[$i] = max($maxWidths[$i], mb_strlen($value));
+                $contentWidths[$i] = max($contentWidths[$i], mb_strwidth($this->cellText($value)));
             }
         }
 
         $job->columns = [];
 
         foreach ($table->headers as $i => $header) {
-            $maxWidths[$i] = max($maxWidths[$i], mb_strlen($header));
-            $job->columns[] = new Column($header, $maxWidths[$i]);
+            if ($header instanceof ColumnDef) {
+                $width = $header->width ?? max($contentWidths[$i], mb_strwidth($header->header));
+
+                $job->columns[] = new Column(
+                    $header->header,
+                    $width,
+                    $header->align,
+                    $header->truncate,
+                    $header,
+                );
+
+                continue;
+            }
+
+            $headerText = $header instanceof Text ? $header->text : (string) $header;
+            $width = max($contentWidths[$i], mb_strwidth($headerText));
+            $job->columns[] = new Column($headerText, $width);
         }
     }
 
@@ -98,7 +103,7 @@ readonly class TablePrinter
             }
 
             $elements[] = new Text(
-                $this->padString($column->header, $column->maxWidth),
+                $this->layout($column->header, $column),
                 $job->settings->headerColor
             );
         }
@@ -118,7 +123,7 @@ readonly class TablePrinter
                 );
             }
 
-            $elements[] = new Text(str_repeat('─', $column->maxWidth), $job->settings->lineColor);
+            $elements[] = new Text(str_repeat('─', $column->width), $job->settings->lineColor);
         }
 
         $job->printer->printLine(...$elements);
@@ -129,9 +134,7 @@ readonly class TablePrinter
         $elements = $this->initializeElements();
 
         foreach ($record as $i => $value) {
-            if ($value === null) {
-                $value = $this->nullGlyph;
-            }
+            $column = $job->columns[$i];
 
             if ($i > 0) {
                 $elements[] = new Text(
@@ -140,22 +143,32 @@ readonly class TablePrinter
                 );
             }
 
-            if ($value instanceof Text) {
-                $elements[] = new Text(
-                    $this->padString($value->text, $job->columns[$i]->maxWidth),
-                    ...$value->format
-                );
-            }
-            else {
-                if (!is_string($value)) {
-                    $value = StringMaker::instance()->fromVariable(
-                        $value,
-                        StringMaker\Settings::forDisplay()
-                    );
-                }
+            if ($value === null) {
+                $elements[] = new Text($this->layout($this->nullGlyph, $column));
 
-                $elements[] = new Text($this->padString($value, $job->columns[$i]->maxWidth));
+                continue;
             }
+
+            if ($value instanceof Text) {
+                // An already-styled cell always wins over any column/default style — this is the
+                // existing behaviour (e.g. the per-status `Text::create('OK', SafeColor::Green)`
+                // cells shown in this package's README), unchanged.
+                $elements[] = new Text($this->layout($value->text, $column), ...$value->format);
+
+                continue;
+            }
+
+            $text = $this->cellText($value);
+
+            $cellStyle = $column->columnDef?->resolveStyle(
+                $value,
+                $record
+            ) ?? $job->settings->defaultCellStyle;
+
+            $elements[] = new Text(
+                $this->layout($text, $column),
+                ...$this->colorFormats($cellStyle)
+            );
         }
 
         $job->printer->printLine(...$elements);
@@ -166,19 +179,58 @@ readonly class TablePrinter
         return [new Text(str_repeat(' ', $this->leftIndent))];
     }
 
-    private function padString(string $value, int $width): string
+    private function cellText(mixed $value): string
     {
-        $padLength = $width - mb_strwidth($value);
+        if ($value instanceof Text) {
+            return $value->text;
+        }
+
+        if (is_string($value)) {
+            return $value;
+        }
+
+        return StringMaker::instance()->fromVariable($value, StringMaker\Settings::forDisplay());
+    }
+
+    /**
+     * Pads/truncates/aligns a cell's text to its column's width. Columns built from a
+     * {@see ColumnDef} use its explicit `align`/`truncate`; a plain string-header column keeps
+     * the original behaviour exactly — auto-sized to content, right-aligned when the value is
+     * numeric, never truncated.
+     */
+    private function layout(string $value, Column $column): string
+    {
+        if ($column->columnDef && $column->truncate && mb_strwidth($value) > $column->width) {
+            $suffix = '…';
+            $keep = max(0, $column->width - mb_strwidth($suffix));
+            $value = mb_substr($value, 0, $keep) . $suffix;
+        }
+
+        $padLength = $column->width - mb_strwidth($value);
 
         if ($padLength <= 0) {
             return $value;
         }
 
-        if (is_numeric($value)) {
-            return str_repeat(' ', $padLength) . $value;
-        }
-        else {
-            return $value . str_repeat(' ', $padLength);
-        }
+        $align = $column->columnDef
+            ? $column->align
+            : (is_numeric($value) ? Align::Right : Align::Left);
+
+        return match ($align) {
+            Align::Right => str_repeat(' ', $padLength) . $value,
+
+            Align::Center
+                => str_repeat(' ', intdiv($padLength, 2))
+                    . $value
+                    . str_repeat(' ', $padLength - intdiv($padLength, 2)),
+
+            Align::Left => $value . str_repeat(' ', $padLength),
+        };
+    }
+
+    /** @return Format[] */
+    private function colorFormats(Style|null $style): array
+    {
+        return $style?->colorFormats() ?? [];
     }
 }

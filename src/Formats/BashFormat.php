@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Medas\ConsolePrinter\Formats;
 
-use Medas\Console\Formats\{BgColor, Format, HexBgColor, HexColor, SafeColor, Style};
+use Medas\Console\Formats\{BgColor, Decoration, Format, HexBgColor, HexColor, SafeColor};
 use Medas\ConsolePrinter\Exceptions\UnknownFormat;
 use Medas\Core\Attributes\Service;
 
@@ -333,10 +333,10 @@ class BashFormat
         }
 
         return match ($format) {
-            // Styles
-            Style::Bold => self::BOLD,
-            Style::Dim => self::DIM,
-            Style::Underlined => self::UNDERLINED,
+            // Decorations
+            Decoration::Bold => self::BOLD,
+            Decoration::Dim => self::DIM,
+            Decoration::Underlined => self::UNDERLINED,
 
             // Background colors
             BgColor::Default => self::DEFAULT_BG,
