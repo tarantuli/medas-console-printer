@@ -81,7 +81,7 @@ readonly class ConsolePrinter implements Printer
         return $this;
     }
 
-    public function printText(string $text, mixed $format = null): Printer
+    public function printText(string|\Stringable $text, mixed $format = null): Printer
     {
         $this->print(Text::create($text, $format));
 

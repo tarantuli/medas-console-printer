@@ -6,7 +6,7 @@ namespace Medas\ConsolePrinter\Commands\ArgumentParser;
 
 /**
  * The result of parsing raw command-line parts: the positional values (not yet mapped
- * onto the command's named Arguments) and the recognized options. Sits between
+ * onto the command's named Arguments) and the recognised options. Sits between
  * ArgumentParser::parse() and ArgumentParser::validate() - the seam that lets --help be
  * handled before the arguments are validated.
  */

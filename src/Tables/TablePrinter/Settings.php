@@ -13,7 +13,7 @@ class Settings
         public Format     $headerColor = Decoration::Bold,
 
         /**
-         * Color/decoration applied to any cell whose column has no {@see \Medas\Console\ColumnDef}
+         * Colour/decoration applied to any cell whose column has no {@see \Medas\Console\ColumnDef}
          * style of its own (and which isn't an already-formatted {@see \Medas\Console\Text}).
          * Only `Style::colorFormats()` is consulted — a `Style`'s own layout is not used here,
          * since cell layout is always owned by the column.

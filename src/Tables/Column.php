@@ -16,8 +16,8 @@ class Column
 
         /**
          * The declarative column this was built from, or null for a plain string header.
-         * Presence of a `ColumnDef` is what switches this column from the legacy auto-align/
-         * never-truncate behavior to the explicit width/align/truncate/style it declares.
+         * The presence of a `ColumnDef` is what switches this column from the legacy auto-align/
+         * never-truncate behaviour to the explicit width/align/truncate/style it declares.
          */
         public ColumnDef|null $columnDef = null,
     )
